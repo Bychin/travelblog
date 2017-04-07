@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+    <title>Blog Post</title>
+    <style>
+    body{
+      background-image: url(/static/home.jpg);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-color: #FFC0CB;
+    }
+    </style>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/blog-post.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body class="container" style="min-width: 970px;">
+   <nav class="navbar navbar-default" style="min-width: 1140px;">
+         <div class="col-md-3">
+            <img height="80" src="{% static "1.jpg" %}" />             
+         </div>
+         <div class="col-md-7">
+             <h1><p>{{user}}'s blog</p></h1>
+         </div>    
+         <div class="col-md-2">
+             <a href="{% url 'home' %}"><button type="button" class="btn btn-default navbar-btn">Go to home page</button></a>
+             <a href="{% url 'post_new' %}"><button type="button" class="btn btn-default navbar-btn">Add post</button></a>
+             <a href="{% url 'logout' %}"><button type="button" class="btn btn-default navbar-btn">Exit</button></a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% for post in posts %}
+                <h1>{{post.title}}</h1>
+                <p class="lead">
+                    by <a href="#">{{post.author}}</a>
+                </p>
+                <hr>
+                <p>
+                    <span class="glyphicon glyphicon-time"></span> Posted on {{post.created_date}}
+                </p>
+                <hr>
+                <img class="img-responsive" src="" alt="" />
+                <hr>
+                <p class="lead" align="center">{{post.text}}</p>
+                <hr>
+            {% endfor %}
+            </div>
+        </div>
+</body>
+</html>
