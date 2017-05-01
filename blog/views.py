@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.core.exceptions import ValidationError
+
 from .models import Post
 from blog.forms import LoginForm, AddPostForm
 
