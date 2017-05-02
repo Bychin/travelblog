@@ -46,7 +46,7 @@ class AddPostForm(forms.Form):
         label=u'text',
         required='true',
     )
-    my_img = forms.FileField(
+    image = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
         required=False,
         label=u'photo'

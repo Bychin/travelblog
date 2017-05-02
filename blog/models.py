@@ -1,6 +1,20 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from djgeojson.fields import PointField
+
+
+class PlaceSpot(models.Model):
+    description = models.CharField(max_length=100)
+    picture = models.ImageField()
+    geom = PointField()
+
+    def __unicode__(self):
+        return self.title
+
+    @property
+    def picture_url(self):
+        return self.picture.url
 
 
 class Rating(models.Model):
@@ -40,6 +54,8 @@ class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=100)
     text = models.TextField()
+    image = models.ImageField(blank=True, null=True)
+    geom = PointField(blank=True)
     created_date = models.DateTimeField(
         default=timezone.now)
     published_date = models.DateTimeField(
@@ -62,6 +78,13 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def __unicode__(self):
+        return self.title
+
+    @property
+    def picture_url(self):
+        return self.image.url
 
 
 class Comment(models.Model):
