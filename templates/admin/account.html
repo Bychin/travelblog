@@ -24,7 +24,7 @@
 <body class="container" style="min-width: 970px;">
    <nav class="navbar navbar-default" style="min-width: 1140px;">
          <div class="col-md-3">
-            <img height="80" src="{% static "1.jpg" %}" />             
+            <img height="80" src="{% static "1.jpg" %}" />
          </div>
          <div class="col-md-7">
              <h1><p>{{user}}'s blog</p></h1>
@@ -51,6 +51,14 @@
                 <img class="img-responsive" src="" alt="" />
                 <hr>
                 <p class="lead" align="center">{{post.text}}</p>
+                <hr>
+                <a href="{% url 'post_detail' post.id %}"><button type="button" class="btn btn-default navbar-btn">Details</button></a>
+                <hr>
+                <p class="lead">
+                    Likes: {{post.rating.likes}}</p>
+                <hr>
+                <p class="lead">
+                    Dislikes: {{post.rating.dislikes}}</p>
                 <hr>
             {% endfor %}
             </div>

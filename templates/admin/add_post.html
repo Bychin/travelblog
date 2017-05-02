@@ -19,7 +19,7 @@
 <body class="container" style="min-width: 970px;">
     <nav class="navbar navbar-default" style="min-width: 1140px;">
          <div class="col-md-3">
-            <img height="60" src="{% static "1.jpg" %}" />             
+            <img height="60" src="{% static '1.jpg' %}" />
          </div>
         <div class="col-md-7">
             <h1><p>Blog for travelers</p></h1>
@@ -42,7 +42,7 @@
                    <h3><em><label for="{{ input.name }}">{{ input.label }}</label></em></h3>
                    {{input}}
                </div>
-               {% endfor %}  
+               {% endfor %}
                {% if messages %}
                     <ul class="messages">
                     {% for message in messages %}

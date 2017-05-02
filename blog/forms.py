@@ -53,3 +53,11 @@ class AddPostForm(forms.Form):
     )
 
 
+class AddCommentForm(forms.Form):
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={'rows': 2, 'class': 'form-control'}
+        ),
+        label=u'text',
+        required='true',
+    )
