@@ -19,7 +19,7 @@
         <button type="submit" name="dislike_button">Dislike</button>
     </form>
     <hr>
-    {% for comment in post.comments.all %}
+    {% for comment in post.comment_set.all %}
     <p class="lead">
         {{comment.author}} commented at {{comment.published_date}}</p>
     <pre>{{comment.text}}</pre>

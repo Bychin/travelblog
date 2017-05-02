@@ -36,19 +36,6 @@ class Rating(models.Model):
         self.save()
 
 
-class Comment(models.Model):
-    author = models.ForeignKey('auth.User')
-    text = models.TextField()
-    published_date = models.DateTimeField(
-        blank=True, null=True)
-
-    def publish(self, reply_to=""):
-        if reply_to != "":
-            self.text = f"@{reply_to}\n{self.text}\n"
-        self.published_date = timezone.now()
-        self.save()
-
-
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=100)
@@ -58,7 +45,6 @@ class Post(models.Model):
     published_date = models.DateTimeField(
         blank=True, null=True)
     rating = models.OneToOneField(Rating, blank=True, null=True)
-    comments = models.ManyToManyField(Comment, blank=True)
 
     def publish(self):
         self.published_date = timezone.now()
@@ -71,9 +57,23 @@ class Post(models.Model):
         comment = Comment()
         comment.author = author
         comment.text = text
-        comment.publish()
-        self.comments.add(comment)
+        comment.publish(self)
         self.save()
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    author = models.ForeignKey('auth.User')
+    text = models.TextField()
+    published_date = models.DateTimeField(
+        blank=True, null=True)
+    post = models.ForeignKey(Post, blank=True, null=True)
+
+    def publish(self, post, reply_to=""):
+        if reply_to != "":
+            self.text = f"@{reply_to}\n{self.text}\n"
+        self.published_date = timezone.now()
+        self.post = post
+        self.save()
