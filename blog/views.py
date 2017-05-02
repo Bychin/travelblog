@@ -59,11 +59,9 @@ def post_detail(request, pk):
         if 'like_button' in request.POST:
             post.rating.add_like(request.user)
             post.rating.save()
-            post.save()
         elif 'dislike_button' in request.POST:
             post.rating.add_dislike(request.user)
             post.rating.save()
-            post.save()
         elif form.is_valid():
             post.add_comment(request.user, form.cleaned_data['text'])
     else:
@@ -72,4 +70,4 @@ def post_detail(request, pk):
             auth.login(request, form.cleaned_data['user'])
             return render(request, 'admin/post.html', {'post': post, 'form': form})
         return render(request, 'admin/login.html', {'form': form})
-    return render(request, 'admin/post.html', {'post': post, 'form': form})
+    return render(request, 'admin/post.html', {'post': post, 'form': AddCommentForm()})

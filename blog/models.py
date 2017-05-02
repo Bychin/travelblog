@@ -63,10 +63,10 @@ class Post(models.Model):
     rating = models.OneToOneField(Rating, blank=True, null=True)
 
     def publish(self):
-        self.published_date = timezone.now()
         rating = Rating()
         rating.save()
         self.rating = rating
+        self.published_date = timezone.now()
         self.save()
 
     def add_comment(self, author, text):
@@ -74,7 +74,6 @@ class Post(models.Model):
         comment.author = author
         comment.text = text
         comment.publish(self)
-        self.save()
 
     def __str__(self):
         return self.title
