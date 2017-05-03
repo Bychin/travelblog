@@ -45,6 +45,9 @@ class Post(models.Model):
     published_date = models.DateTimeField(
         blank=True, null=True)
     rating = models.OneToOneField(Rating, blank=True, null=True)
+    longitude = models.FloatField(default=0)
+    latitude = models.FloatField(default=0)
+    img = models.FileField(default=None)
 
     def publish(self):
         self.published_date = timezone.now()

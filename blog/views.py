@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.core.exceptions import ValidationError
 from .models import Post
-from blog.forms import LoginForm, AddPostForm, AddCommentForm
+from .forms import LoginForm, AddPostForm, AddCommentForm, PostForm
 
 
 def home(request):
@@ -33,22 +33,15 @@ def account(request, user_name):
 
 def post_new(request):
     if request.method == "POST":
-        form = AddPostForm(request.POST)
+        post = Post(author=request.user)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            post = Post()
-            post.title = form.cleaned_data['title']
-            post.text = form.cleaned_data['text']
-            post.author = request.user
-            try:
-                post.full_clean()
-            except ValidationError:
-                messages.error(request,
-                               f"Title should contain {Post._meta.get_field('title').max_length} characters or less")
-            else:
-                post.publish()
-                return redirect('account', request.user)
+            post_ = form.save(commit=False)
+            form.save()
+            post_.publish()
+            return redirect('account', request.user)
     else:
-        form = AddPostForm()
+        form = PostForm()
     return render(request, 'admin/add_post.html', {'form': form})
 
 
@@ -72,4 +65,4 @@ def post_detail(request, pk):
             auth.login(request, form.cleaned_data['user'])
             return render(request, 'admin/post.html', {'post': post, 'form': form})
         return render(request, 'admin/login.html', {'form': form})
-    return render(request, 'admin/post.html', {'post': post, 'form': form})
+    return render(request, 'admin/post.html', {'post': post, 'form': AddCommentForm()})
