@@ -46,10 +46,18 @@ class AddPostForm(forms.Form):
         label=u'text',
         required='true',
     )
-    my_img = forms.FileField(
+    image = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
         required=False,
         label=u'photo'
     )
 
 
+class AddCommentForm(forms.Form):
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={'rows': 2, 'class': 'form-control'}
+        ),
+        label=u'text',
+        required='true',
+    )

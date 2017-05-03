@@ -1,10 +1,39 @@
-{% extends "admin/base.html" %}
+{% load staticfiles %}
+{% csrf_token %}
+  <head>
+    <title>Blog Post</title>
+    <style>
+    body{
+      background-image: url(/static/home.jpg);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-color: #FFC0CB;
+    }
+    </style>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/blog-post.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
 
-{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
-
-{% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">Header</a></h1>
-
-{% endblock %}
-
-{% block nav-global %}{% endblock %}
+<body class="container" style="min-width: 970px;">
+   <nav class="navbar navbar-default" style="min-width: 1140px;">
+         <div class="col-md-3">
+             <a href="{% url 'home' %}"><img height="80" src="{% static "1.jpg" %}" /></a>
+         </div>
+         <div class="col-md-7">
+             <h1><p>{{user}}'s blog</p></h1>
+         </div>
+         <div class="col-md-2">
+             <a href="{% url 'home' %}"><button type="button" class="btn btn-default navbar-btn">Home</button></a>
+             <a href="{% url 'account' user %}"><button type="button" class="btn btn-default navbar-btn">My page</button></a>
+             <a href="{% url 'post_new' %}"><button type="button" class="btn btn-default navbar-btn">Add post</button></a>
+             <a href="{% url 'logout' %}"><button type="button" class="btn btn-default navbar-btn">Exit</button></a>
+        </div>
+    </nav>
+  {% block content %}
+  {% endblock %}
+</body>

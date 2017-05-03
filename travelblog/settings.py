@@ -37,8 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'blog',
     'register',
+
+    'leaflet',
+    'djgeojson',
+    'jsonfield',  # required???
 ]
 
 MIDDLEWARE = [
@@ -124,3 +129,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LEAFLET_CONFIG = {
+    # conf here
+    'DEFAULT_CENTER': (50.51, 20.87),
+    'DEFAULT_ZOOM': 4,
+    'MIN_ZOOM': 2,
+    'MAX_ZOOM': 18,
+}

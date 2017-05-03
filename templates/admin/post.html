@@ -1,11 +1,54 @@
+{% extends 'admin/base_site.html' %}
 {% block content %}
-<div class="post">
-    {% if post.published_date %}
-    <div class="date">
-        {{ post.published_date }}
+<!DOCTYPE html>
+{% load staticfiles %}
+{% csrf_token %}
+<html lang="en">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+        {% if post.published_date %}
+        <div class="date">
+            {{ post.published_date }}
+        </div>
+        {% endif %}
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.text|linebreaksbr }}</p>
+        <hr>
+        <form method='POST'>
+        {% csrf_token %}
+            <p class="lead" align="right">
+                <button type="submit" name="like_button"><img height="40" src="{% static "like.jpg" %}" /></button> {{post.rating.likes}}
+                <button type="submit" name="dislike_button"><img height="40" src="{% static "dislike.jpg" %}" /></button> {{post.rating.dislikes}}</p>
+        </form>
+        <hr>
+        {% for comment in post.comment_set.all %}
+        <p class="lead">
+            {{comment.author}} commented at {{comment.published_date}}</p>
+        <pre>{{comment.text}}</pre>
+        {% endfor %}
+        <hr>
+
+        <form method="post">
+               <div class="col-md-9">
+                   {% csrf_token %}
+                   {% for error in form.non_field_errors %}
+                        <div><strong>Ошибка!</strong> {{ error }}</div>
+                   {% endfor %}
+                   {% for input in form.visible_fields %}
+                   <div class="form-group">
+                       <label for="{{ input.name }}">{{ input.label }}</label>
+                       {{input}}
+                   </div>
+                   {% endfor %}
+                   <button type="submit" class="btn btn-default">Comment</button>
+                   <a href="{% url 'account' post.author%}"><button type="button" class="btn btn-default navbar-btn">return</button></a>
+               </div>
+            </form>
     </div>
-    {% endif %}
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.text|linebreaksbr }}</p>
-</div>
-    {% endblock %}
+        </div>
+        </div>
+</html>
+{% endblock content %}
+
