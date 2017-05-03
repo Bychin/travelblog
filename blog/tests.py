@@ -34,22 +34,6 @@ class ViewsTests(TestCase):
         self.request.user = User()
         self.request.user.username = 'usr'
 
-    def test_view_login(self):
-        self.request.user.is_active = True
-        self.assertEqual(str(my_login(self.request)),
-                         str(redirect('/profile/usr/')), "views login test 1 - error")
-
-        self.request.user.is_active = False
-        self.request.method = 'POST'
-        self.assertEqual(str(my_login(self.request)),
-                         str(render(self.request, 'admin/login.html', {'form': LoginForm() })),
-                         "views login test 2 - error")
-
-        self.request.method = ''
-        self.assertEqual(str(my_login(self.request)),
-                         str(render(self.request, 'admin/login.html', {'form': LoginForm() })),
-                         "views login test 3 - error")
-
     def test_view_post_new(self):
         self.assertEqual(str(post_new(self.request)),
                          str(render(self.request, 'admin/add_post.html', {'form': LoginForm()})),
