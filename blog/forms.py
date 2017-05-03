@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django import forms
+from .models import Post
 
 
 class LoginForm(forms.Form):
@@ -46,11 +47,30 @@ class AddPostForm(forms.Form):
         label=u'text',
         required='true',
     )
-    image = forms.FileField(
+    my_img = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
         required=False,
         label=u'photo'
     )
+    longitude = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=True,
+    )
+    latitude = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=True,
+    )
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'text', 'longitude', 'latitude', 'img']
+        widgets = { 'title':forms.TextInput(attrs={'class': "form-control"}),
+                    'text': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),
+                    'longitude': forms.HiddenInput(),
+                    'latitude': forms.HiddenInput(),
+                }
 
 
 class AddCommentForm(forms.Form):

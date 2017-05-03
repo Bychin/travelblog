@@ -3,19 +3,56 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 {% csrf_token %}
+
 <html lang="en">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-        {% if post.published_date %}
-        <div class="date">
-            {{ post.published_date }}
-        </div>
-        {% endif %}
-        <h1>{{ post.title }}</h1>
-        <p>{{ post.text|linebreaksbr }}</p>
-        <hr>
+      <div class="row">
+           <div class="col-md-9">
+               {% if post.published_date %}
+               <div class="date">
+                   {{ post.published_date }}
+               </div>
+               {% endif %}
+               <h1>{{ post.title }}</h1>
+               <p>{{ post.text|linebreaksbr }}</p>
+               <hr>
+               <div class="row">
+                    <div class="col-md-6">
+                        {% load static %}
+                        <img src="{% get_media_prefix %}{{ post.img.name }}" class="img-responsive img-rounded">
+                    </div>
+                   <div class="col-md-6">
+                       <div id="map"></div>
+                   </div>
+               </div>
+           </div>
+
+        <script>
+          function initMap() {
+            var uluru = {lat: {{post.latitude}}, lng: {{post.longitude}} };
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 4,
+              center: uluru
+            });
+            var marker = new google.maps.Marker({
+              position: uluru,
+              map: map,
+                draggable: true,
+            });
+            document.getElementById('id_latitude').value = marker.getPosition().lat();
+            document.getElementById('id_longitude').value = marker.getPosition().lng();
+             marker.addListener('dragend', function() {
+              document.getElementById('id_latitude').value = marker.getPosition().lat();
+                document.getElementById('id_longitude').value = marker.getPosition().lng();
+            });
+          }
+        </script>
+
+       <script async defer
+               src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSgKuqkhenn3A8URWybahP--T0rENyeO0&callback=initMap">
+       </script>
+      <hr>
+      <div class="col-md-9">
         <form method='POST'>
         {% csrf_token %}
             <p class="lead" align="right">
@@ -26,7 +63,8 @@
         {% for comment in post.comment_set.all %}
         <p class="lead">
             {{comment.author}} commented at {{comment.published_date}}</p>
-        <pre>{{comment.text}}</pre>
+        <p>{{comment.text|linebreaksbr}}</p>
+           <br>
         {% endfor %}
         <hr>
 
@@ -46,9 +84,9 @@
                    <a href="{% url 'account' post.author%}"><button type="button" class="btn btn-default navbar-btn">return</button></a>
                </div>
             </form>
-    </div>
-        </div>
-        </div>
+      </div>
+      </div>
+
 </html>
 {% endblock content %}
 

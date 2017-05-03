@@ -54,13 +54,15 @@ class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=100)
     text = models.TextField()
-    image = models.ImageField(blank=True, null=True, upload_to='images/blog/')
     geom = PointField(blank=True)
     created_date = models.DateTimeField(
         default=timezone.now)
     published_date = models.DateTimeField(
         blank=True, null=True)
     rating = models.OneToOneField(Rating, blank=True, null=True)
+    longitude = models.FloatField(default=0)
+    latitude = models.FloatField(default=0)
+    img = models.FileField(default=None)
 
     def publish(self):
         rating = Rating()

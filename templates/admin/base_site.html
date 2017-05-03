@@ -11,6 +11,10 @@
       background-size: cover;
       background-color: #FFC0CB;
     }
+    #map {
+        height: 400px;
+        width: 100%;
+    }
     </style>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +29,7 @@
              <a href="{% url 'home' %}"><img height="80" src="{% static "1.jpg" %}" /></a>
          </div>
          <div class="col-md-7">
-             <h1><p>{{user}}'s blog</p></h1>
+             <h1><p>Hello, traveller {{user}}!</p></h1>
          </div>
          <div class="col-md-2">
              <a href="{% url 'home' %}"><button type="button" class="btn btn-default navbar-btn">Home</button></a>
