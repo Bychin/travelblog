@@ -51,5 +51,13 @@ class AddPostForm(forms.Form):
         required=False,
         label=u'photo'
     )
+    longitude = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=True,
+    )
+    latitude = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=True,
+    )
 
 
