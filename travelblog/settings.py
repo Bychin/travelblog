@@ -40,10 +40,6 @@ INSTALLED_APPS = [
 
     'blog',
     'register',
-
-    'leaflet',
-    'djgeojson',
-    'jsonfield',  # required???
 ]
 
 MIDDLEWARE = [
