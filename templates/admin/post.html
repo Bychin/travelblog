@@ -55,6 +55,7 @@
       <div class="col-md-9">
         <form method='POST'>
         {% csrf_token %}
+            <hr>
             <p class="lead" align="right">
                 <button type="submit" name="like_button"><img height="40" src="{% static "like.jpg" %}" /></button> {{post.rating.likes}}
                 <button type="submit" name="dislike_button"><img height="40" src="{% static "dislike.jpg" %}" /></button> {{post.rating.dislikes}}</p>

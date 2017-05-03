@@ -32,41 +32,11 @@ class LoginForm(forms.Form):
             raise forms.ValidationError(u'Указан неверный логин или пароль')
 
 
-class AddPostForm(forms.Form):
-    title = forms.CharField(
-        widget=forms.TextInput(
-            attrs={'class': "form-control"},
-        ),
-        label=u'title',
-        required='true',
-    )
-    text = forms.CharField(
-        widget=forms.Textarea(
-            attrs={'rows': 5, 'class': 'form-control'}
-        ),
-        label=u'text',
-        required='true',
-    )
-    my_img = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
-        required=False,
-        label=u'photo'
-    )
-    longitude = forms.FloatField(
-        widget=forms.HiddenInput(),
-        required=True,
-    )
-    latitude = forms.FloatField(
-        widget=forms.HiddenInput(),
-        required=True,
-    )
-
-
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'text', 'longitude', 'latitude', 'img']
-        widgets = { 'title':forms.TextInput(attrs={'class': "form-control"}),
+        widgets = {'title': forms.TextInput(attrs={'class': "form-control"}),
                     'text': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),
                     'longitude': forms.HiddenInput(),
                     'latitude': forms.HiddenInput(),

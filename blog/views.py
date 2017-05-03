@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.core.exceptions import ValidationError
 from .models import Post
-from .forms import LoginForm, AddPostForm, AddCommentForm, PostForm
+from .forms import LoginForm, AddCommentForm, PostForm
 
 
 def home(request):
