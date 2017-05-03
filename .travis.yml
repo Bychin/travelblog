@@ -1,0 +1,11 @@
+language: python
+python:
+  - "3.6"
+  
+install: 
+  - pip install Django
+  - pip install django-geojson
+
+script:
+  - python3.6 manage.py migrate
+  - python3.6 manage.py test
