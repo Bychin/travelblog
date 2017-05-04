@@ -37,7 +37,7 @@
             var marker = new google.maps.Marker({
               position: uluru,
               map: map,
-                draggable: true,
+                draggable: false,
             });
             document.getElementById('id_latitude').value = marker.getPosition().lat();
             document.getElementById('id_longitude').value = marker.getPosition().lng();
