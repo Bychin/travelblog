@@ -54,7 +54,8 @@ class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=100)
     text = models.TextField()
-    image = models.ImageField(blank=True, null=True)
+    #image = models.ImageField(blank=True, null=True)
+    image = models.FileField(default=None)
     geom = PointField(blank=True)
     created_date = models.DateTimeField(
         default=timezone.now)

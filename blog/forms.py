@@ -1,6 +1,10 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django import forms
+from .models import Post
+
+from leaflet.forms.widgets import LeafletWidget
+from leaflet.forms.fields import PointField
 
 
 class LoginForm(forms.Form):
@@ -31,26 +35,16 @@ class LoginForm(forms.Form):
             raise forms.ValidationError(u'Указан неверный логин или пароль')
 
 
-class AddPostForm(forms.Form):
-    title = forms.CharField(
-        widget=forms.TextInput(
-            attrs={'class': "form-control"},
-        ),
-        label=u'title',
-        required='true',
-    )
-    text = forms.CharField(
-        widget=forms.Textarea(
-            attrs={'rows': 5, 'class': 'form-control'}
-        ),
-        label=u'text',
-        required='true',
-    )
-    image = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
-        required=False,
-        label=u'photo'
-    )
+class PostForm(forms.ModelForm):
+    #geom = PointField()
+    class Meta:
+        model = Post
+        fields = ['title', 'text', 'geom'] #, 'image'
+        widgets = {'title': forms.TextInput(attrs={'class': "form-control"}),
+                    'text': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),
+                    'geom': LeafletWidget(),
+                   #'image': forms.FileInput(),
+                  }
 
 
 class AddCommentForm(forms.Form):

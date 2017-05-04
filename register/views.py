@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from register.forms import SignupForm
-from django.http import HttpResponseRedirect
+# from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.shortcuts import redirect
 
@@ -13,7 +13,7 @@ def register(request):
         if form.is_valid():
             new_user = form.save()
             auth.login(request, new_user)
-            return HttpResponseRedirect('/')
+            return redirect('/profile/' + str(form.cleaned_data['username']) + '/')
     else:
         form = SignupForm()
     return render(request, 'register/signup.html', {'form': form})

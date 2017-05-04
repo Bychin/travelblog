@@ -1,45 +1,112 @@
-{% block content %}
-<br class="post">
-    {% if post.published_date %}
-    <div class="date">
-        {{ post.published_date }}
-    </div>
-    {% endif %}
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.text|linebreaksbr }}</p>
-    <hr>
-    <p class="lead">
-        Likes: {{post.rating.likes}}</p>
-    <p class="lead">
-        Dislikes: {{post.rating.dislikes}}</p>
-    <hr>
-    <form method='POST'>
-        {% csrf_token %}
-        <button type="submit" name="like_button">Like</button>
-        <button type="submit" name="dislike_button">Dislike</button>
-    </form>
-    <hr>
-    {% for comment in post.comment_set.all %}
-    <p class="lead">
-        {{comment.author}} commented at {{comment.published_date}}</p>
-    <pre>{{comment.text}}</pre>
-    {% endfor %}
-    <hr>
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load leaflet_tags %}
+{% load geojson_tags %}
 
-    <form method="post">
+<html lang="en">
+    {% leaflet_js %}
+    {% leaflet_css %}
+    {% csrf_token %}
+  <head>
+    <title>Blog Post</title>
+    <style>
+    body{
+      background-image: url(/static/home.jpg);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-color: #FFC0CB;
+    }
+
+    </style>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/blog-post.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+
+<body class="container" style="min-width: 970px;">
+   <nav class="navbar navbar-default" style="min-width: 1140px;">
+         <div class="col-md-3">
+             <a href="{% url 'home' %}"><img height="80" src="{% static "1.jpg" %}" /></a>
+         </div>
+         <div class="col-md-7">
+             <h1><p>Hello, traveller {{user}}!</p></h1>
+         </div>
+         <div class="col-md-2">
+             <a href="{% url 'home' %}"><button type="button" class="btn btn-default navbar-btn">Home</button></a>
+             <a href="{% url 'account' user %}"><button type="button" class="btn btn-default navbar-btn">My page</button></a>
+             <a href="{% url 'post_new' %}"><button type="button" class="btn btn-default navbar-btn">Add post</button></a>
+             <a href="{% url 'logout' %}"><button type="button" class="btn btn-default navbar-btn">Exit</button></a>
+        </div>
+   </nav>
+  {% block content %}
+
+      <div class="row">
            <div class="col-md-9">
-               {% csrf_token %}
-               {% for error in form.non_field_errors %}
-               		<div><strong>Ошибка!</strong> {{ error }}</div>
-               {% endfor %}
-               {% for input in form.visible_fields %}
-               <div class="form-group">
-                   <label for="{{ input.name }}">{{ input.label }}</label>
-                   {{input}}
+               {% if post.published_date %}
+               <div class="date">
+                   {{ post.published_date }}
                </div>
-               {% endfor %}
-               <button type="submit" class="btn btn-default">Comment</button>
+               {% endif %}
+               <h1>{{ post.title }}</h1>
+               <p>{{ post.text|linebreaksbr }}</p>
+               <hr>
+               <div class="row">
+                   <div class="col-md-6">
+                       {% load static %}
+                       <img src="{% get_media_prefix %}{{ post.image.name }}" class="img-responsive img-rounded">
+                   </div>
+                   <script type="text/javascript">
+                        function map_init_basic (map, options) {
+                            L.marker({{post.geom}}).addTo(map);
+                        }
+                   </script>
+
+                   {% leaflet_map "postmap" callback="window.map_init_basic" %}
+               </div>
            </div>
+
+      <hr>
+      <div class="col-md-9">
+        <form method='POST'>
+        {% csrf_token %}
+            <hr>
+            <p class="lead" align="right">
+                <button type="submit" name="like_button"><img height="40" src="{% static "like.jpg" %}" /></button> {{post.rating.likes}}
+                <button type="submit" name="dislike_button"><img height="40" src="{% static "dislike.jpg" %}" /></button> {{post.rating.dislikes}}</p>
         </form>
-</div>
-{% endblock %}
+        <hr>
+        {% for comment in post.comment_set.all %}
+        <p class="lead">
+            {{comment.author}} commented at {{comment.published_date}}</p>
+        <p>{{comment.text|linebreaksbr}}</p>
+           <br>
+        {% endfor %}
+        <hr>
+
+        <form method="post">
+               <div class="col-md-9">
+                   {% csrf_token %}
+                   {% for error in form.non_field_errors %}
+                        <div><strong>Ошибка!</strong> {{ error }}</div>
+                   {% endfor %}
+                   {% for input in form.visible_fields %}
+                   <div class="form-group">
+                       <label for="{{ input.name }}">{{ input.label }}</label>
+                       {{input}}
+                   </div>
+                   {% endfor %}
+                   <button type="submit" class="btn btn-default">Comment</button>
+                   <a href="{% url 'account' post.author%}"><button type="button" class="btn btn-default navbar-btn">return</button></a>
+               </div>
+            </form>
+      </div>
+      </div>
+
+
+  {% endblock %}
+</body>
+</html>
