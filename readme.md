@@ -1,5 +1,15 @@
 # travelblog
 
-last upd: базовый функционал, немного тестов.
+## last update:
+- добавлены карты к постам
+- добавлены картинки к постам
+- добавлены лайки и комментарии
+- исправления багов
 
-PS: не всегда наиболее последняя версия лежит в ветке master. Проверяйте и другие.
+## how to configure:
+./configure
+
+## how to run
+./run.sh
+    or
+python3.6 (or python3 if associated with 3.6) manage.py runserver
