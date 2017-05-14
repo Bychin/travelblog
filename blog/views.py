@@ -1,15 +1,18 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.shortcuts import redirect, get_object_or_404
-from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.core.exceptions import ValidationError
-from .models import Post
+from .models import *
 from .forms import LoginForm, AddCommentForm, PostForm
 
 
 def home(request):
     return render(request, 'admin/home.html', {})
+
+
+def error_404(request):
+    return render(request, 'admin/404.html', {})
 
 
 def my_login(request):
@@ -26,11 +29,23 @@ def my_login(request):
 
 
 def account(request, user_name):
-    user = get_object_or_404(User, username=user_name)
-    #user = User.objects.get(username=user_name)
-    posts = Post.objects.filter(author=user, published_date__lte=timezone.now()).order_by('published_date')
+    user = get_object_or_404(Traveler, username=user_name)
+    return render(request, 'admin/account.html', {'traveler': user})
 
-    return render(request, 'admin/account.html', {'posts': posts})
+
+def account_settings(request):
+    #user = get_object_or_404(Traveler, username=user_name)
+    if request.user.is_authenticated():
+        return render(request, 'admin/account_settings.html', {'traveler': Traveler()})
+    else:
+        form = LoginForm()
+        return render(request, 'admin/login.html', {'form': form})
+
+def account_posts(request, user_name):
+    user = get_object_or_404(Traveler, username=user_name)
+    posts = Post.objects.filter(author=user).order_by('-published_date')
+
+    return render(request, 'admin/account_posts.html', {'posts': posts})
 
 
 def post_new(request):
@@ -48,7 +63,7 @@ def post_new(request):
             else:
                 post_.publish()
                 form.save()
-                return redirect('account', request.user)
+                return redirect('account_posts', request.user)
     else:
         form = PostForm()
     return render(request, 'admin/add_post.html', {'form': form})
@@ -59,13 +74,13 @@ def post_detail(request, pk):
     form = AddCommentForm(request.POST)
     if request.user.is_authenticated():
         if 'like_button' in request.POST:
-            post.rating.add_like(request.user)
+            post.rating.add_like(Traveler.objects.get(username=request.user))
             post.rating.save()
         elif 'dislike_button' in request.POST:
-            post.rating.add_dislike(request.user)
+            post.rating.add_dislike(Traveler.objects.get(username=request.user))
             post.rating.save()
         elif form.is_valid():
-            post.add_comment(request.user, form.cleaned_data['text'])
+            post.add_comment(Traveler.objects.get(username=request.user), form.cleaned_data['text'])
     else:
         form = LoginForm(request.POST)
         if form.is_valid():

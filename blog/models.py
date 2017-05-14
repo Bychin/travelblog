@@ -1,15 +1,48 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+import json
+
+
+class Traveler(User):
+    about = models.TextField(default="")
+    avatar = models.ImageField(default=None)
+    notifications = models.TextField(default="")
+    notification_count = models.IntegerField(default=0)
+
+    def add_notification(self, notice):
+        if self.notifications != "":
+            arr = json.loads(self.notifications)
+            arr.push(notice)
+        else:
+            arr = [notice]
+        self.notifications = json.dumps(arr)
+        self.notification_count += 1
+        self.save()
+
+    def check_notification(self, num):
+        if num < self.notification_count:
+            arr = json.loads(self.notifications)
+            notice = arr.pop(num)
+            self.notifications = json.dumps(arr)
+            return notice
+        else:
+            return None
+
+    def get_notifications(self):
+        if self.notification_count == 0:
+            return "No new notifications :c"
+        else:
+            return json.loads()
 
 
 class Rating(models.Model):
     likes = models.IntegerField(
         verbose_name='Likes', default=0)
-    liked_by = models.ManyToManyField(User, related_name='liked_by')
+    liked_by = models.ManyToManyField(Traveler, related_name='liked_by')
     dislikes = models.IntegerField(
         verbose_name='Dislikes', default=0)
-    disliked_by = models.ManyToManyField(User, related_name='disliked_by')
+    disliked_by = models.ManyToManyField(Traveler, related_name='disliked_by')
 
     def add_like(self, user):
         if self.liked_by.filter(id=user.id).exists():
@@ -70,8 +103,8 @@ class Post(models.Model):
 
     @property
     def picture_url(self):
-        if self.image and hasattr(self.image, 'url'):
-            return self.image.url
+        if self.img and hasattr(self.img, 'url'):
+            return self.img.url
 
 
 class Comment(models.Model):
@@ -80,10 +113,15 @@ class Comment(models.Model):
     published_date = models.DateTimeField(
         blank=True, null=True)
     post = models.ForeignKey(Post, blank=True, null=True)
+    rating = models.OneToOneField(Rating, blank=True, null=True)
 
     def publish(self, post, reply_to=""):
         if reply_to != "":
-            self.text = f"@{reply_to}\n{self.text}\n"
+            try:
+                Traveler.objects.get(username=reply_to)
+            except Traveler.DoesNotExist:
+                return "There is no such user to reply :c"
+            self.text = f"@{reply_to}\n{self.text}"
         self.published_date = timezone.now()
         self.post = post
         self.save()

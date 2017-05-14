@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from django import forms
-from .models import Post
+from .models import Post, Traveler
 
 
 class LoginForm(forms.Form):
@@ -22,7 +21,7 @@ class LoginForm(forms.Form):
     def clean(self):
         data = self.cleaned_data
         try:
-            username_input = User.objects.get(username=data['login'])
+            username_input = Traveler.objects.get(username=data['login'])
             user = authenticate(username=username_input, password=data['password'])
             if user.is_active:
                 data['user'] = user

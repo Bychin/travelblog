@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 
 
 def register(request):
-    if request.user.is_active:
+    if request.user.is_authenticated():
         return redirect('/profile/' + str(request.user) + '/')
     if request.method == 'POST':
         form = SignupForm(request.POST)

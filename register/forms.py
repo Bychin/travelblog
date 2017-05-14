@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from blog.models import Traveler
 
 
 class SignupForm(forms.Form):
@@ -33,17 +33,17 @@ class SignupForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data['username']
         try:
-            User.objects.get(username=username)
+            Traveler.objects.get(username=username)
             raise forms.ValidationError(u'Такой пользователь уже существует')
-        except User.DoesNotExist:
+        except Traveler.DoesNotExist:
             return username
 
     def clean_email(self):
         email = self.cleaned_data['email']
         try:
-            User.objects.get(email=email)
+            Traveler.objects.get(email=email)
             raise forms.ValidationError(u'Данная почта уже зарегистрирована!')
-        except User.DoesNotExist:
+        except Traveler.DoesNotExist:
             return email
 
     def clean_repeat_password(self):
@@ -55,7 +55,7 @@ class SignupForm(forms.Form):
     def save(self):
         data = self.cleaned_data
         password = data.get('password')
-        new_user = User()
+        new_user = Traveler()
         new_user.username = data.get('username')
         new_user.password = make_password(password)
         new_user.email = data.get('email')

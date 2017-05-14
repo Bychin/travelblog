@@ -3,7 +3,21 @@
 <html lang="en">
 
 <head>
-    <title>{{traveler}}'s profile</title>
+    <title>Blog Post</title>
+    <style>
+    body{
+      background-image: url(/static/home.jpg);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-color: #FFC0CB;
+    }
+     .mapc {
+        height: 400px;
+        width: 100%;
+    }
+    </style>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -17,7 +31,7 @@
             <img height="80" src="{% static "1.jpg" %}" />
          </div>
          <div class="col-md-7">
-             <h1><p>{{traveler}}'s profile</p></h1>
+             <h1><p>{{user}}'s blog</p></h1>
          </div>
          <div class="col-md-2">
              <a href="{% url 'home' %}"><button type="button" class="btn btn-default navbar-btn">Go to home page</button></a>
@@ -28,18 +42,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <hr>
-                {{traveler.notifications}}
-                <hr>
-                <hr>
-                {{traveler.email}}
-                <hr>
-
-                <hr>
-                {{traveler.notification_count}}
-                <hr>
             </div>
-        </div>
+    </div>
     </div>
 </body>
 </html>
