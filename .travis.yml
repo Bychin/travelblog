@@ -4,7 +4,7 @@ python:
   
 install: 
   - pip install Django
-  - pip install django-geojson
+  - pip install Pillow
 
 script:
   - python3.6 manage.py makemigrations

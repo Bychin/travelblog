@@ -41,6 +41,7 @@ def account_settings(request):
         form = LoginForm()
         return render(request, 'admin/login.html', {'form': form})
 
+
 def account_posts(request, user_name):
     user = get_object_or_404(Traveler, username=user_name)
     posts = Post.objects.filter(author=user).order_by('-published_date')

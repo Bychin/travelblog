@@ -7,22 +7,22 @@ from .forms import *
 class ViewTests(TestCase):
     def test_views_register(self):
         request = HttpRequest()
-        request.user = User()
-        request.user.username = 'usr'
-        request.user.is_active = True
-        self.assertEqual(str(register(request)),
-                         str(redirect('/profile/usr/')), "views register test 1 - error")
-
-        request.user.is_active = False
         request.method = 'POST'
+        request.user = Traveler()
+        request.user.username = 'usr'
+        request.user.is_active = False
         self.assertEqual(str(register(request)),
                          str(render(request, 'register/signup.html', {'form': SignupForm(request.POST)})),
-                         "views register test 2 - error")
+                         "views register test 1 - error")
 
         request.method = ''
         self.assertEqual(str(register(request)),
                          str(render(request, 'register/signup.html', {'form': SignupForm()})),
-                         "views register test 3 - error")
+                         "views register test 2 - error")
+
+        request.user.is_active = True
+        self.assertEqual(str(register(request)),
+                         str(redirect('/profile/usr/')), "views register test 3 - error")
 
 
 class FormsTest(TestCase):

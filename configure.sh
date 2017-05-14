@@ -12,6 +12,7 @@ echo "$py_version
 ."
 fi
 
+pip install Pillow
 pip install Django
 
 python3.6 manage.py makemigrations

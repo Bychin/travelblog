@@ -80,7 +80,7 @@ class Post(models.Model):
     rating = models.OneToOneField(Rating, blank=True, null=True)
     longitude = models.FloatField(default=0)
     latitude = models.FloatField(default=0)
-    img = models.FileField(default=None)
+    img = models.ImageField(default=None)
 
     def publish(self):
         rating = Rating()
