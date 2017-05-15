@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.utils import timezone
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import auth, messages
 from django.core.exceptions import ValidationError
@@ -8,7 +7,10 @@ from .forms import LoginForm, AddCommentForm, PostForm
 
 
 def home(request):
-    return render(request, 'admin/home.html', {})
+    if request.user.is_authenticated():
+        return render(request,'admin/home.html',{'traveler':  request.user})
+    else:
+        return render(request, 'admin/home.html')
 
 
 def error_404(request):
@@ -60,7 +62,7 @@ def post_new(request):
                 post_.full_clean()
             except ValidationError:
                 messages.error(request,
-                               f"Title should contain {Post._meta.get_field('title').max_length} characters or less")
+                               "Error in fields!")
             else:
                 post_.publish()
                 form.save()

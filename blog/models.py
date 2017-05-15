@@ -6,9 +6,9 @@ import json
 
 class Traveler(User):
     about = models.TextField(default="")
-    avatar = models.ImageField(default=None)
-    notifications = models.TextField(default="")
-    notification_count = models.IntegerField(default=0)
+    avatar = models.ImageField(upload_to='images', default=None, null=True, blank=True)
+    notifications = models.TextField(default="", null=True, blank=True)
+    notification_count = models.IntegerField(default=0, null=True, blank=True)
 
     def add_notification(self, notice):
         if self.notifications != "":
@@ -34,6 +34,11 @@ class Traveler(User):
             return "No new notifications :c"
         else:
             return json.loads()
+
+    @property
+    def picture_url(self):
+        if self.avatar and hasattr(self.avatar, 'url'):
+            return self.avatar.url
 
 
 class Rating(models.Model):
@@ -80,6 +85,11 @@ class Post(models.Model):
     rating = models.OneToOneField(Rating, blank=True, null=True)
     longitude = models.FloatField(default=0)
     latitude = models.FloatField(default=0)
+    longitude2 = models.FloatField(default=0, null=True, blank=True)
+    latitude2 = models.FloatField(default=0, null=True, blank=True)
+    longitude3 = models.FloatField(default=0, null=True, blank=True)
+    latitude3 = models.FloatField(default=0, null=True, blank=True)
+    # addresses = models.TextField(default="", null=True)
     img = models.ImageField(default=None)
 
     def publish(self):
@@ -124,4 +134,7 @@ class Comment(models.Model):
             self.text = f"@{reply_to}\n{self.text}"
         self.published_date = timezone.now()
         self.post = post
+        rating = Rating()
+        rating.save()
+        self.rating = rating
         self.save()

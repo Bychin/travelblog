@@ -31,6 +31,9 @@
                 <hr>
                 {{traveler.notifications}}
                 <hr>
+                {% load static %}
+                        <img src="{% get_media_prefix %}{{ traveler.avatar }}" class="img-responsive img-rounded">
+                {{ traveler.avatar }}
                 <hr>
                 {{traveler.email}}
                 <hr>

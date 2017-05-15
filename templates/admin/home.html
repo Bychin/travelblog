@@ -2,35 +2,91 @@
 {% load staticfiles %}
 <html lang="en">
 <head>
-    <style>
-     body{
-      background-image: url(/static/home.jpg);
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-      background-color: #FFC0CB;
-    }
-    </style>
-    <title>home</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body{
+         background-position: center center;
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         background-size: cover;
+         background-color: #2ecc71;
+}
+        .navbar-default{
+            background-color: #27ae60;
+            border-color: #5cb85c;
+        }
+        .navbar-default .navbar-nav > .active > a,
+        .navbar-default .navbar-nav > .active > a:hover,
+        .navbar-default .navbar-nav > .active > a:focus {
+            color: #faf2cc;
+            background-color: #2ecc71;
+        }
+        .jumbotron{
+            color: #449d44;
+            background-image: url(/static/2.jpg);
+        }
+        .btn-large{
+            background-color:#2ecc71;
+        }
+        h2{
+            color: #5e5e5e;
+        }
+        p{
+            color: #5e5e5e;
+        }
+    </style>
+    <title>
+        home
+    </title>
 </head>
 
-<body class="container" style="min-width: 970px;">
-    <nav class="navbar navbar-default" style="min-width: 1140px;">
-          <div class="col-md-3">
-               <a class="navbar-brand" href="#">
-        <img height="50" src="{% static "1.jpg" %}" />
-        </a>
-          </div>
-        <div class="col-md-7">
-            <h1><p>Blog for travelers</p></h1>
+<body>
+<nav role="navigation" class=" navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                   <img class="media-object" hspace="10" height="20" src="{% static "1.jpg" %}">
+            </a>
         </div>
-        <div class="col-md-2">
-           <a href="{% url 'register' %}"><button type="button" text-align="before" class="btn btn-default navbar-btn">Sign up</button>
-           <a href="{% url 'login' %}"><button type="button" class="btn btn-default navbar-btn">Login</button></a>
+        <div class="collapse navbar-collapse">
+            {% if traveler %}
+               <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="{% url 'account' traveler %}">Перейти на свою страницу</a>
+                </li>
+            </ul>
+            {% else %}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="{% url 'login' %}">Войти</a>
+                </li>
+            </ul>
+            {% endif %}
         </div>
-      </div>
+        </div>
     </nav>
-    </body>
+<div class="jumbotron">
+    <h1>Привет,путешественник!</h1>
+    <div class="container">
+        <div class="col-md-8">
+            <p>Не с кем поделиться впечатлениями о путешествии? Хочется узнавать все больше о других странах? Начните свой блог прямо сейчас.Делись постами о наиболее интересных и необычных уголках планеты,выкладыай фотографии,показывай на карте места, в которых ты побывал! Здесь собрались путешественники совершено разных возрастов, из разных городов, профессионалы, любители, новички.Читайте друг друга, вдохновляйтесь на новые путешествия!</p>
+        </div>
+        <div class="col-md-4">
+            <img src="{% static "image.gif" %}">
+        </div>
+    </div>
+    <p><a href="#" class="btn btn-primary btn-large">Посмотреть посты людей</a></p>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Вас обязательно прочтут</h2>
+          <p>Когда вы публикуете пост, он попадает в общую ленту, которую читают все пользователи и гости нашего сайта!</p>
+    </div>
+        <div class="col-md-6">
+          <h2>Оставляй комментарии к постам</h2>
+          <p>Мнение о вашем посте можно узнать из комментариев пользователей!</p>
+       </div>
+ </div>
+</body>
 </html>

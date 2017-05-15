@@ -5,7 +5,6 @@
 {% csrf_token %}
 
 <html lang="en">
-
       <div class="row">
            <div class="col-md-9">
                {% if post.published_date %}
@@ -26,6 +25,65 @@
                    </div>
                </div>
            </div>
+
+          <script src="https://maps.googleapis.com/maps/api/js"></script>
+            <div id="map"></div>
+
+          <script>
+              var MapPoints = '[{"address":{"lat":{{post.latitude}},"lng":{{post.longitude}}}},{"address":{"lat":{{post.latitude2}},"lng":{{post.longitude2}}}},{"address":{"lat":{{post.latitude3}},"lng":{{post.longitude3}}}}]';
+
+var MY_MAPTYPE_ID = 'custom_style';
+
+function initialize() {
+
+  if (jQuery('#map').length > 0) {
+
+    var locations = jQuery.parseJSON(MapPoints);
+
+    window.map = new google.maps.Map(document.getElementById('map'), {
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scrollwheel: true
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+    var flightPlanCoordinates = [];
+    var bounds = new google.maps.LatLngBounds();
+
+    for (i = 0; i < locations.length; i++) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i].address.lat, locations[i].address.lng),
+        map: map
+      });
+      flightPlanCoordinates.push(marker.getPosition());
+      bounds.extend(marker.position);
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i]['title']);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+
+    map.fitBounds(bounds);
+
+    var flightPath = new google.maps.Polyline({
+      map: map,
+      path: flightPlanCoordinates,
+      strokeColor: "#FF0000",
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+
+  }
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+          </script>
+
+          <script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<div id="mapmm" style="border: 2px solid #3872ac;"></div>
+
 
         <script>
           function initMap() {
@@ -57,17 +115,31 @@
         {% csrf_token %}
             <hr>
             <p class="lead" align="right">
-                <button type="submit" name="like_button"><img height="40" src="{% static "like.jpg" %}" /></button> {{post.rating.likes}}
-                <button type="submit" name="dislike_button"><img height="40" src="{% static "dislike.jpg" %}" /></button> {{post.rating.dislikes}}</p>
+                <button type="submit" name="like_button">
+                    <img height="40" src="{% static "like.jpg" %}" />
+                </button> {{post.rating.likes}}
+
+                <button type="submit" name="dislike_button">
+                    <img height="40" src="{% static "dislike.jpg" %}" />
+                </button> {{post.rating.dislikes}}
+            </p>
         </form>
+
+
+
         <hr>
         {% for comment in post.comment_set.all %}
         <p class="lead">
             {{comment.author}} commented at {{comment.published_date}}</p>
-        <p>{{comment.text|linebreaksbr}}</p>
-           <br>
+          <p>{{comment.text|linebreaksbr}}</p>
+
+          <br>
+          likes: {{comment.rating.likes}}
+          <br>
+          dislikes: {{comment.rating.dislikes}}
+
           {% endfor %}
-        <hr>
+          <hr>
 
         <form method="post">
                <div class="col-md-9">

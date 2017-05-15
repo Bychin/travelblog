@@ -64,22 +64,75 @@
 
         <script>
           function initMap() {
-            var uluru = {lat: -25.363, lng: 131.044};
+            var uluru = {lat: 0, lng: 0};
+            var places = 3;
             var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 4,
               center: uluru
             });
+
             var marker = new google.maps.Marker({
-              position: uluru,
-              map: map,
-                draggable: true,
-            });
-            document.getElementById('id_latitude').value = marker.getPosition().lat();
-            document.getElementById('id_longitude').value = marker.getPosition().lng();
-             marker.addListener('dragend', function() {
-              document.getElementById('id_latitude').value = marker.getPosition().lat();
+                              position: uluru,
+                              map: map,
+                                draggable: true,
+                            });
+                document.getElementById('id_latitude').value = marker.getPosition().lat();
                 document.getElementById('id_longitude').value = marker.getPosition().lng();
-            });
+                marker.addListener('dragend', function() {
+                    document.getElementById('id_latitude').value = marker.getPosition().lat();
+                    document.getElementById('id_longitude').value = marker.getPosition().lng();
+                });
+
+            var marker2 = new google.maps.Marker({
+                              position: uluru,
+                              map: map,
+                                draggable: true,
+                            });
+                document.getElementById('id_latitude2').value = marker2.getPosition().lat();
+                document.getElementById('id_longitude2').value = marker2.getPosition().lng();
+                marker2.addListener('dragend', function() {
+                    document.getElementById('id_latitude2').value = marker2.getPosition().lat();
+                    document.getElementById('id_longitude2').value = marker2.getPosition().lng();
+                });
+
+             var marker3 = new google.maps.Marker({
+                              position: uluru,
+                              map: map,
+                                draggable: true,
+                            });
+                document.getElementById('id_latitude3').value = marker3.getPosition().lat();
+                document.getElementById('id_longitude3').value = marker3.getPosition().lng();
+                marker3.addListener('dragend', function() {
+                    document.getElementById('id_latitude3').value = marker3.getPosition().lat();
+                    document.getElementById('id_longitude3').value = marker3.getPosition().lng();
+                });
+
+/*
+for (i = 0; i < 10; i++) {
+
+    markers[i] = new google.maps.Marker({
+        position: new google.maps.LatLng(40+Math.random()*5, 4+Math.random()*5),
+        map: map,
+        title: 'samplemarker'
+    });
+
+    markers[i].index = i; //add index property
+    contents[i] = '<div class="popup_container"></div>';
+
+
+    infowindows[i] = new google.maps.InfoWindow({
+        content: contents[i],
+        maxWidth: 300
+    });
+
+    google.maps.event.addListener(markers[i], 'click', function() {
+        console.log(this.index); // this will give correct index
+        console.log(i); //this will always give 10 for you
+        infowindows[this.index].open(map,markers[this.index]);
+        map.panTo(markers[this.index].getPosition());
+    });
+}
+*/
           }
         </script>
 
