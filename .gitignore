@@ -1,0 +1,9 @@
+# PyCharm files
+/.idea/*
+
+# local stuff
+/commands.txt
+/media/*
+/db.sqlite3
+/debug.log
+*.pyc

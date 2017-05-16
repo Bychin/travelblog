@@ -19,10 +19,14 @@
     }
     </style>
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/blog-post.css" rel="stylesheet">
+    <link href="/static/css/blog-post.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/centrifuge.min.js"></script>
+    <script type="text/javascript" src="/static/js/update.js"></script>
+
 </head>
 
 <body class="container" style="min-width: 970px;">
@@ -46,59 +50,61 @@
                         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSgKuqkhenn3A8URWybahP--T0rENyeO0">
                 </script>
                 {% for post in posts %}
-                <h1>{{post.title}}</h1>
-                <p class="lead">
-                    by <a href="#">{{post.author}}</a>
-                </p>
-                <p>
-                    <span class="glyphicon glyphicon-time"></span> Posted on {{post.created_date}}
-                </p>
-                <hr>
-                <img class="img-responsive" src="" alt="" />
+                    <h1>{{post.title}}</h1>
+                    <p class="lead">
+                        by <a href="#">{{post.author}}</a>
+                    </p>
+                    <p>
+                        <span class="glyphicon glyphicon-time"></span> Posted on {{post.created_date}}
+                    </p>
+                    <hr>
+                    <img class="img-responsive" src="" alt="" />
 
-                <style>
-                    .text {
-                    white-space: nowrap;
-                    overflow: hidden;
-                }
-                </style>
-                <p class="lead" align="center">{{post.text|truncatechars:500}}</p>
+                    <style>
+                        .text {
+                        white-space: nowrap;
+                        overflow: hidden;
+                    }
+                    </style>
+                    <p class="lead" align="center">{{post.text|truncatechars:500}}</p>
 
 
-               <div class="row">
-                    <div class="col-md-6">
-                        {% load static %}
-                        <img src="{% get_media_prefix %}{{ post.img.name }}" class="img-responsive img-rounded">
-                    </div>
-                   <div class="col-md-6">
-                       <div id="map{{ post.id }}" class="mapc"></div>
+                   <div class="row">
+                        <div class="col-md-6">
+                            {% load static %}
+                            <img src="{% get_media_prefix %}{{ post.img.name }}" class="img-responsive img-rounded">
+                        </div>
+                       <div class="col-md-6">
+                           <div id="map{{ post.id }}" class="mapc"></div>
+                       </div>
                    </div>
-               </div>
 
-                <script>
-                        function initMap() {
-                            var coords = {lat: {{ post.latitude }}, lng: {{ post.longitude }}};
-                            var map = new google.maps.Map(document.getElementById('map{{ post.id }}'), {
-                                zoom: 4,
-                                center: coords
-                            });
-                            var marker = new google.maps.Marker({
-                                position: coords,
-                                map: map,
-                                draggable: false,
-                            });
-                        }
-                        initMap()
-                </script>
-                <hr>
-                <p class="lead" align="right">
-                    <img height="40" src="{% static "like.jpg" %}" /> {{post.rating.likes}}
-                    <img height="40" src="{% static "dislike.jpg" %}" /> {{post.rating.dislikes}}
-                </p>
-                <hr>
-                <a href="{% url 'post_detail' post.id %}">
-                    <button type="button" class="btn btn-default navbar-btn">Details</button>
-                </a>
+                    <script>
+                            function initMap() {
+                                var coords = {lat: {{ post.latitude }}, lng: {{ post.longitude }}};
+                                var map = new google.maps.Map(document.getElementById('map{{ post.id }}'), {
+                                    zoom: 4,
+                                    center: coords
+                                });
+                                var marker = new google.maps.Marker({
+                                    position: coords,
+                                    map: map,
+                                    draggable: false,
+                                });
+                            }
+                            initMap()
+                    </script>
+                    <hr>
+                    <p class="lead" align="right">
+                    <span id="item_like{{ post.rating.pk }}">
+                        <img height="40" src="{% static "like.jpg" %}" /> <span class="likes">{{post.rating.likes}}</span>
+                        <img height="40" src="{% static "dislike.jpg" %}" /> <span class="dislikes">{{post.rating.dislikes}}</span>
+                    </span>
+                    </p>
+                    <hr>
+                    <a href="{% url 'post_detail' post.id %}">
+                        <button type="button" class="btn btn-default navbar-btn">Details</button>
+                    </a>
                 {% endfor %}
             </div>
         </div>

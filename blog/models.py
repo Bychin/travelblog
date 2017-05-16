@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 import json
+import cent
 
 
 class Traveler(User):
@@ -48,6 +49,25 @@ class Rating(models.Model):
     dislikes = models.IntegerField(
         verbose_name='Dislikes', default=0)
     disliked_by = models.ManyToManyField(Traveler, related_name='disliked_by')
+
+    def push_likes(self):
+        client = cent.Client("http://localhost:9000", "secret", timeout=1)
+        try:
+            client.publish("likes_updates", {
+                "item": self.pk,
+                "likes": self.likes,
+                "dislikes": self.dislikes
+            })
+        except cent.CentException:
+            pass
+
+    def delete(self, **kwargs):
+        super(Rating, self).delete(**kwargs)
+        self.push_likes()
+
+    def save(self, **kwargs):
+        super(Rating, self).save(**kwargs)
+        self.push_likes()
 
     def add_like(self, user):
         if self.liked_by.filter(id=user.id).exists():
@@ -124,6 +144,33 @@ class Comment(models.Model):
         blank=True, null=True)
     post = models.ForeignKey(Post, blank=True, null=True)
     rating = models.OneToOneField(Rating, blank=True, null=True)
+
+    def get_time(self):
+        return str(self.published_date)
+
+    # WORK IN PROGRESS #
+    def push_comment(self):
+        client = cent.Client("http://localhost:9000", "secret", timeout=1)
+        try:
+            client.publish("comments_updates", {
+                "author": str(self.author),
+                "item": self.pk,
+                "text": self.text,
+                "date": self.get_time(),
+                "likes": self.rating.likes,
+                "dislikes": self.rating.dislikes
+            })
+        except cent.CentException:
+            pass
+    ##################
+
+    def delete(self, **kwargs):
+        super(Comment, self).delete(**kwargs)
+        self.push_comment()
+
+    def save(self, **kwargs):
+        super(Comment, self).save(**kwargs)
+        self.push_comment()
 
     def publish(self, post, reply_to=""):
         if reply_to != "":
