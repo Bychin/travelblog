@@ -204,14 +204,12 @@
         </div>
         <div class="collapse navbar-collapse">
             {% if traveler %}
-               <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="{% url 'account' traveler %}">Перейти на свою страницу</a>
-                </li>
-               </ul>
+                <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="{% url 'account_posts' traveler %}">Моя страница</a></li>
+                </ul>
             {% else %}
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{% url 'home' %}">Вернуться на главную страницу</a>
-                    </li>
+                    <li class="active"><a href="{% url 'home' %}">Главная</a></li>
                 </ul>
             {% endif %}
         </div>

@@ -1,145 +1,315 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-<html lang="en">
+<html lang="ru">
 <head>
-    <title>Add new post</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
-     body{
-      background-image: url(/static/home.jpg);
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-      background-color: #FFC0CB;
-    }
-    #map {
+        body{
+         background-position: center center;
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         background-size: cover;
+         background-color: #2ecc71;
+}
+        .navbar-default{
+            background-color: #27ae60;
+            border-color: #5cb85c;
+        }
+        .navbar-default .navbar-nav > .active > a,
+        .navbar-default .navbar-nav > .active > a:hover,
+        .navbar-default .navbar-nav > .active > a:focus {
+            color: #faf2cc;
+            background-color: #2ecc71;
+        }
+        .btn-large{
+            background-color:#2ecc71;
+        }
+        #login {
+            background-color: #d6e9c6;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#2ecc71), to(#2fff));
+            background-image: -webkit-linear-gradient(top, #2ecc71, #2fff);
+            background-image: -moz-linear-gradient(top, #2ecc71, #2fff);
+            background-image: -ms-linear-gradient(top, #2ecc71, #2fff);
+            background-image: -o-linear-gradient(top, #2ecc71, #2fff);
+            background-image: linear-gradient(top, #2ecc71, #2fff);
+            height: 1050px;
+            width: 800px;
+            margin: -280px 0 100px -400px;
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            right: 50%;
+            z-index: 0;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            -webkit-box-shadow:
+                    0 0 2px rgba(0, 0, 0, 0.2),
+                    0 1px 1px rgba(0, 0, 0, .2),
+                    0 3px 0 #fff,
+                    0 4px 0 rgba(0, 0, 0, .2),
+                    0 6px 0 #fff,
+                    0 7px 0 rgba(0, 0, 0, .2);
+            -moz-box-shadow:
+                    0 0 2px rgba(0, 0, 0, 0.2),
+                    1px 1px   0 rgba(0,   0,   0,   .1),
+                    3px 3px   0 rgba(255, 255, 255, 1),
+                    4px 4px   0 rgba(0,   0,   0,   .1),
+                    6px 6px   0 rgba(255, 255, 255, 1),
+                    7px 7px   0 rgba(0,   0,   0,   .1);
+            box-shadow:
+                    0 0 2px rgba(0, 0, 0, 0.2),
+                    0 1px 1px rgba(0, 0, 0, .2),
+                    0 3px 0 #fff,
+                    0 4px 0 rgba(0, 0, 0, .2),
+                    0 6px 0 #fff, 0 7px 0 rgba(0, 0, 0, .2);
+        }
+        #login:before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            border: 1px dashed #ccc;
+            top: 5px;
+            bottom: 5px;
+            left: 5px;
+            right: 5px;
+            -moz-box-shadow: 0 0 0 1px #fff;
+            -webkit-box-shadow: 0 0 0 1px #fff;
+            box-shadow: 0 0 0 1px #fff;  }
+        h1 {
+            text-shadow: 0 1px 0 rgba(255, 255, 255, .7), 0px 2px 0 rgba(0, 0, 0, .5);
+            text-transform: uppercase;
+            text-align: center;
+            color: #666;
+            margin: 0 0 30px 0;
+            letter-spacing: 4px;
+            font: normal 26px/1 Verdana, Helvetica;
+            position: relative;  }
+        h1:after, h1:before {
+            background-color: #777;
+            content: "";
+            height: 1px;
+            position: absolute;
+            top: 15px;
+            width: 120px;
+        }
+        h1:after {
+            background-image: -webkit-gradient(linear, left top, right top, from(#777), to(#fff));
+            background-image: -webkit-linear-gradient(left, #777, #fff);
+            background-image: -moz-linear-gradient(left, #777, #fff);
+            background-image: -ms-linear-gradient(left, #777, #fff);
+            background-image: -o-linear-gradient(left, #777, #fff);
+            background-image: linear-gradient(left, #777, #fff);
+            right: 0;
+        }
+        h1:before {
+            background-image: -webkit-gradient(linear, right top, left top, from(#777), to(#fff));
+            background-image: -webkit-linear-gradient(right, #777, #fff);
+            background-image: -moz-linear-gradient(right, #777, #fff);
+            background-image: -ms-linear-gradient(right, #777, #fff);
+            background-image: -o-linear-gradient(right, #777, #fff);
+            background-image: linear-gradient(right, #777, #fff);
+            left: 0;  }
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        #inputs input {
+            background: #f1f1f1 url(/dist/uploads/2011/09/login-sprite.png) no-repeat;
+            padding: 15px 15px 15px 30px;
+            margin: 0 0 10px 0;
+            width: 100%; /* 353 + 2 + 45 = 400 */
+            border: 1px solid #ccc;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+            -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+            box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;  }
+        #inputs input:focus {
+            background-color: #fff;
+            border-color: #e8c291;
+            outline: none;
+            -moz-box-shadow: 0 0 0 1px #e8c291 inset;
+            -webkit-box-shadow: 0 0 0 1px #e8c291 inset;
+            box-shadow: 0 0 0 1px #e8c291 inset;  }
+        #submit {
+            background-color: #ffb94b;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
+            background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: linear-gradient(top, #fddb6f, #ffb94b);
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+            -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #d69e31 #e3a037 #d5982d #e3a037;
+            float: left;
+            height: 35px;
+            padding: 0;
+            width: 220px;
+            cursor: pointer;
+            font: bold 15px Arial, Helvetica;
+            color: #8f5a0a;
+        }
+        #actions {
+            margin: 25px 0 0 0;  }
+
+
+        #submit:hover,#submit:focus {
+            background-color: #2ecc71;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
+            background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
+            background-image: -moz-linear-gradient(top, #ffb94b, #fddb6f);
+            background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
+            background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
+            background-image: linear-gradient(top, #ffb94b, #fddb6f);
+        }
+        #submit:active {
+            outline: none;
+            -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+            -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;  }
+
+        #submit::-moz-focus-inner {
+            border: none;  }
+
+        #actions a {
+            color: #3151A2;
+            float: right;
+            line-height: 35px;
+            margin-left: 20px;  }
+         #map {
         height: 400px;
         width: 100%;
     }
     </style>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>
+        home
+    </title>
 </head>
 
-<body class="container" style="min-width: 970px;">
-    <nav class="navbar navbar-default" style="min-width: 1140px;">
-         <div class="col-md-3">
-            <img height="60" src="{% static "1.jpg" %}" />
-         </div>
-        <div class="col-md-7">
-            <h1><p>Blog for travelers</p></h1>
+<body>
+<nav role="navigation" class=" navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                   <img class="media-object" hspace="10" height="20" src="{% static "1.jpg" %}">
+            </a>
         </div>
-        <div class="col-md-2">
-            <a href="{% url 'home' %}"><button type="button" class="btn btn-default navbar-btn">return</button></a>
+        <div class="collapse navbar-collapse">
+               <ul class="nav navbar-nav">
+                   <li class="active"><a href="{% url 'home' %}">Главная</a>
+                   </li>
+                   <li class="active"><a href="{% url 'account_posts' traveler %}">Моя страница</a>
+                   </li>
+               </ul>
+        </div>
         </div>
     </nav>
-
-   <div class="row">
-       <form method="post" id="form" enctype="multipart/form-data">
-           <div class="col-md-9">
-               <h1><p>Add new post</p></h1>
-               {% csrf_token %}
-               {% for error in form.non_field_errors %}
-               		<div><strong>Ошибка!</strong> {{ error }}</div>
-               {% endfor %}
-               {% for input in form.visible_fields %}
-               <div class="form-group">
-                   <h3><em><label for="{{ input.name }}">{{ input.label }}</label></em></h3>
-                   {{input}}
-               </div>
-               {% endfor %}
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
+<form method="post" id="login" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1>Добавление нового поста</h1>
+    <fieldset id="inputs">
+        {% for error in form.non_field_errors %}
+            <div><strong>Ошибка!</strong> {{ error }}</div>
+        {% endfor %}
+        {% for input in form.visible_fields %}
+            <label>{{ input.label }}</label>
+                {{input}}
+            <br />
+        {% endfor %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                 {% endfor %}
-               {% if messages %}
-                    <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-                <div id="map"></div>
-               <button type="submit" class="btn btn-default" >Add</button>
-           </div>
-        </form>
-
+            </ul>
+        {% endif %}
+        <input onclick="addMarker();" type=button value="Add marker">
+        <input onclick="removeLastMarker();" type=button value="Remove last marker">
+        <div id="map"></div>
         <script>
-          function initMap() {
-            var uluru = {lat: 0, lng: 0};
-            var places = 3;
-            var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 4,
-              center: uluru
+        
+        var map;
+        var markers = [];
+        var default_coordinates = {lat: 0, lng: 0};
+        var min_places = 1;
+        var max_places = 10;
+        var places = 0;
+        
+        document.getElementById('id_places_count').value = 0;
+        
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: default_coordinates,
             });
 
-            var marker = new google.maps.Marker({
-                              position: uluru,
-                              map: map,
-                                draggable: true,
-                            });
-                document.getElementById('id_latitude').value = marker.getPosition().lat();
-                document.getElementById('id_longitude').value = marker.getPosition().lng();
+            map.addListener('click', function(event) {
+                addMarker(event.latLng);
+            });
+
+            addMarker();
+        }
+
+        function addMarker(location = default_coordinates) {
+            if (document.getElementById('id_places_count').value < max_places) {
+                document.getElementById('id_places_count').value++;
+                
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    draggable: true,
+                });
+            
+                document.getElementById('id_latitude'+document.getElementById('id_places_count').value).value = 
+                    marker.getPosition().lat();
+                document.getElementById('id_longitude'+document.getElementById('id_places_count').value).value = 
+                    marker.getPosition().lng();
                 marker.addListener('dragend', function() {
-                    document.getElementById('id_latitude').value = marker.getPosition().lat();
-                    document.getElementById('id_longitude').value = marker.getPosition().lng();
+                    document.getElementById('id_latitude'+document.getElementById('id_places_count').value).value = 
+                    marker.getPosition().lat();
+                    document.getElementById('id_longitude'+document.getElementById('id_places_count').value).value = 
+                    marker.getPosition().lng();
                 });
-
-            var marker2 = new google.maps.Marker({
-                              position: uluru,
-                              map: map,
-                                draggable: true,
-                            });
-                document.getElementById('id_latitude2').value = marker2.getPosition().lat();
-                document.getElementById('id_longitude2').value = marker2.getPosition().lng();
-                marker2.addListener('dragend', function() {
-                    document.getElementById('id_latitude2').value = marker2.getPosition().lat();
-                    document.getElementById('id_longitude2').value = marker2.getPosition().lng();
+            
+                markers.push(marker);
+            }
+        }
+        
+        function removeLastMarker() {
+            if (document.getElementById('id_places_count').value > min_places) {
+                marker = markers.pop()
+                marker.addListener("dblclick", function() {
+                    marker.setMap(null);
                 });
+            }
+        }
 
-             var marker3 = new google.maps.Marker({
-                              position: uluru,
-                              map: map,
-                                draggable: true,
-                            });
-                document.getElementById('id_latitude3').value = marker3.getPosition().lat();
-                document.getElementById('id_longitude3').value = marker3.getPosition().lng();
-                marker3.addListener('dragend', function() {
-                    document.getElementById('id_latitude3').value = marker3.getPosition().lat();
-                    document.getElementById('id_longitude3').value = marker3.getPosition().lng();
-                });
-
-/*
-for (i = 0; i < 10; i++) {
-
-    markers[i] = new google.maps.Marker({
-        position: new google.maps.LatLng(40+Math.random()*5, 4+Math.random()*5),
-        map: map,
-        title: 'samplemarker'
-    });
-
-    markers[i].index = i; //add index property
-    contents[i] = '<div class="popup_container"></div>';
-
-
-    infowindows[i] = new google.maps.InfoWindow({
-        content: contents[i],
-        maxWidth: 300
-    });
-
-    google.maps.event.addListener(markers[i], 'click', function() {
-        console.log(this.index); // this will give correct index
-        console.log(i); //this will always give 10 for you
-        infowindows[this.index].open(map,markers[this.index]);
-        map.panTo(markers[this.index].getPosition());
-    });
-}
-*/
-          }
         </script>
-
         <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSgKuqkhenn3A8URWybahP--T0rENyeO0&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSgKuqkhenn3A8URWybahP--T0rENyeO0&callback=initMap">
         </script>
+        
+    </fieldset>
+    <fieldset id="actions">
+        <input type="submit" id="submit" value="Добавить!">
+    </fieldset>
+</form>
 
-    </div>
 </body>
 </html>

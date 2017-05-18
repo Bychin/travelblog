@@ -28,11 +28,44 @@
         .btn-large{
             background-color:#2ecc71;
         }
+        h1{
+            margin-left: 30px;
+        }
         h2{
             color: #5e5e5e;
         }
         p{
             color: #5e5e5e;
+        }
+        .row{
+            margin-left: 30px;
+        }
+        #submit {
+            background-color: #ffb94b;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
+            background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: linear-gradient(top, #fddb6f, #ffb94b);
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+            -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #d69e31 #e3a037 #d5982d #e3a037;
+            float: left;
+            height: 35px;
+            padding: 0;
+            width: 270px;
+            cursor: pointer;
+            font: bold 15px Arial, Helvetica;
+            color: #8f5a0a;
+            margin-left: 30px;
         }
     </style>
     <title>
@@ -50,18 +83,14 @@
         </div>
         <div class="collapse navbar-collapse">
             {% if traveler %}
-               <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="{% url 'account' traveler %}">Перейти на свою страницу</a>
-                </li>
-            </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="{% url 'account_posts' traveler %}">Моя страница</a></li>
+                </ul>
             {% else %}
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="{% url 'login' %}">Войти</a>
-                </li>
-            </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="{% url 'login' %}">Войти</a></li>
+                    <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
+                </ul>
             {% endif %}
         </div>
         </div>
@@ -76,7 +105,7 @@
             <img src="{% static "image.gif" %}">
         </div>
     </div>
-    <p><a href="#" class="btn btn-primary btn-large">Посмотреть посты людей</a></p>
+    <input type="submit" id="submit" value="Посмотреть посты других людей">
 </div>
 <div class="row">
     <div class="col-md-6">

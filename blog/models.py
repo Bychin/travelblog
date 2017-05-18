@@ -83,13 +83,28 @@ class Post(models.Model):
     published_date = models.DateTimeField(
         blank=True, null=True)
     rating = models.OneToOneField(Rating, blank=True, null=True)
-    longitude = models.FloatField(default=0)
-    latitude = models.FloatField(default=0)
+    places_count = models.IntegerField(default=0)
+    longitude1 = models.FloatField(default=0)
+    latitude1 = models.FloatField(default=0)
     longitude2 = models.FloatField(default=0, null=True, blank=True)
     latitude2 = models.FloatField(default=0, null=True, blank=True)
     longitude3 = models.FloatField(default=0, null=True, blank=True)
     latitude3 = models.FloatField(default=0, null=True, blank=True)
-    # addresses = models.TextField(default="", null=True)
+    longitude4 = models.FloatField(default=0, null=True, blank=True)
+    latitude4 = models.FloatField(default=0, null=True, blank=True)
+    longitude5 = models.FloatField(default=0, null=True, blank=True)
+    latitude5 = models.FloatField(default=0, null=True, blank=True)
+    longitude6 = models.FloatField(default=0, null=True, blank=True)
+    latitude6 = models.FloatField(default=0, null=True, blank=True)
+    longitude7 = models.FloatField(default=0, null=True, blank=True)
+    latitude7 = models.FloatField(default=0, null=True, blank=True)
+    longitude8 = models.FloatField(default=0, null=True, blank=True)
+    latitude8 = models.FloatField(default=0, null=True, blank=True)
+    longitude9 = models.FloatField(default=0, null=True, blank=True)
+    latitude9 = models.FloatField(default=0, null=True, blank=True)
+    longitude10 = models.FloatField(default=0, null=True, blank=True)
+    latitude10 = models.FloatField(default=0, null=True, blank=True)
+    places = models.TextField(default="", null=True, blank=True)
     img = models.ImageField(default=None)
 
     def publish(self):
@@ -97,6 +112,10 @@ class Post(models.Model):
         rating.save()
         self.rating = rating
         self.published_date = timezone.now()
+        places = []
+        for i in range(self.places_count):
+            places.append([getattr(self, "latitude"+str(i+1)), getattr(self, "longitude"+str(i+1))])
+        self.places = places
         self.save()
 
     def add_comment(self, author, text):

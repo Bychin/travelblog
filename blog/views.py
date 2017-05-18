@@ -24,16 +24,15 @@ def my_login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             auth.login(request, form.cleaned_data['user'])
-            return redirect('/profile/' + str(form.cleaned_data['login']) + '/')
+            return redirect('/profile/' + str(form.cleaned_data['login']) + '/posts/')
     else:
         form = LoginForm()
     return render(request, 'admin/login.html', {'form': form})
 
 
 def account(request, user_name):
-    user = get_object_or_404(Traveler, username=user_name)
-    return render(request, 'admin/account.html', {'traveler': user})
-
+    return redirect('/profile/' + user_name + '/posts/')
+    
 
 def account_settings(request):
     #user = get_object_or_404(Traveler, username=user_name)
@@ -48,7 +47,7 @@ def account_posts(request, user_name):
     user = get_object_or_404(Traveler, username=user_name)
     posts = Post.objects.filter(author=user).order_by('-published_date')
 
-    return render(request, 'admin/account_posts.html', {'posts': posts})
+    return render(request, 'admin/account_posts.html', {'posts': posts, 'traveler': request.user.username , 'author':user})
 
 
 def post_new(request):
@@ -69,7 +68,7 @@ def post_new(request):
                 return redirect('account_posts', request.user)
     else:
         form = PostForm()
-    return render(request, 'admin/add_post.html', {'form': form})
+    return render(request, 'admin/add_post.html', {'form': form, 'traveler': request.user})
 
 
 def post_detail(request, pk):
