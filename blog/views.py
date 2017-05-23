@@ -116,11 +116,11 @@ def post_detail(request, pk):
         if 'like_button' in request.POST:
             post.rating.add_like(Traveler.objects.get(username=request.user))
             post.rating.save()
-            return HttpResponseRedirect(reverse('post_detail', kwargs={'pk': pk}))
+            #return HttpResponseRedirect(reverse('post_detail', kwargs={'pk': pk}))
         elif 'dislike_button' in request.POST:
             post.rating.add_dislike(Traveler.objects.get(username=request.user))
             post.rating.save()
-            return HttpResponseRedirect(reverse('post_detail', kwargs={'pk': pk}))
+            #return HttpResponseRedirect(reverse('post_detail', kwargs={'pk': pk}))
         elif form.is_valid():
             post.add_comment(Traveler.objects.get(username=request.user), form.cleaned_data['text'])
             return HttpResponseRedirect(reverse('post_detail', kwargs={'pk': pk}))

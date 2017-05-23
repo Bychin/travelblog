@@ -4,6 +4,9 @@
 <head>
     <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
     <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/posts.css">
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/centrifuge.min.js"></script>
+    <script type="text/javascript" src="/static/js/update.js"></script>
     <title>
         {{user}}
     </title>
@@ -137,8 +140,10 @@
                     </div>
                     <div class="col-md-6">
                         <p class="lead" align="right">
-                            <img height="40" src="{% static "like.jpg" %}" /> {{post.rating.likes}}
-                            <img height="40" src="{% static "dislike.jpg" %}" /> {{post.rating.dislikes}}
+                            <span id="item_like{{ post.rating.pk }}">
+                                <img height="40" src="{% static "like.png" %}" /> <span class="likes">{{post.rating.likes}}</span>
+                                <img height="40" src="{% static "dislike.png" %}" /> <span class="dislikes">{{post.rating.dislikes}}</span>
+                            </span>
                         </p>
                     </div>
                     <hr>
