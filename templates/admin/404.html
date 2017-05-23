@@ -1,26 +1,55 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 <html lang="en">
-
 <head>
-    <title>404</title>
-    <style>
-    </style>
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/blog-post.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/home.css">
+    <title>
+        Oops, 404
+    </title>
 </head>
 
-<body class="container" style="min-width: 970px;">
-   <nav class="navbar navbar-default" style="min-width: 1140px;">
-         <div class="col-md-3">
-            <img height="80" src="{% static "1.jpg" %}" />
-         </div>
-   </nav>
-   <div class="col-md-7">
-        <h1><p>OH THATS AN ERROR :C</p></h1>
-   </div>
+<body>
+<nav role="navigation" class=" navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                   <img class="media-object" hspace="10" height="20" src="{% static "1.jpg" %}">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse">
+            {% if traveler %}
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'home' %}">Главная</a></li>
+                    <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
+                    <li class="active"><a href="{% url 'post_new' %}">Добавить новый пост</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="{% url 'account_posts' traveler 1%}">Моя страница</a>
+                    </li>
+                    <li class="active"><a href="">Настройки</a>
+                    </li>
+                    <li class="active"><a href="{% url 'logout'  %}">Выйти</a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'home' %}">Главная</a></li>
+                    <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="{% url 'login' %}">Войти</a></li>
+                    <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="jumbotron" align="center">
+    <h1>Ох, ошибка 404 :C</h1>
+    <h2>Прямо сейчас вы находитесь на странице,</h2>
+    <h2>которой не существует.</h2>
+    <img src="{% static "travolta.gif" %}">
+</div>
 </body>
 </html>

@@ -1,188 +1,12 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 <html lang="ru">
 <head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-        .post-container {
-            width: 100%;
-            padding: 30px;
-        }
-        hr{
-            margin-right:50px;
-        }
-        .post-header {
-             margin: 30px 40px 40px 20px;
-            position: relative;
-            background: #d6e9c6;
-            padding: 25px;
-            text-align: center;
-            z-index: 2;
-        }
-        h1 {
-            font-family: 'Playfair Display SC', serif;
-            font-weight: 500;
-            letter-spacing: 1px;
-            font-size: 24px;
-            color: #222222;
-            text-align: center;
-        }
-        h3 {
-            font-size: 13px;
-            margin: 0;
-            color: #c7254e;
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            letter-spacing: 1.4px;
-            text-align: center;
-        }
-        h3 a {
-            color: #8f5a0a;
-        }
-        p {
-            font-family: 'Open Sans', sans-serif;
-            color: #000000;
-            font-size: 14px;
-            line-height: 24px;
-            text-align: left;
-            margin-top: 0;
-        }
-        .post-info {
-            padding-top: 35px;
-        }
-        body{
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            background-color: #2ecc71;
-            padding-top: 70px;
-}
-        .navbar-default{
-            background-color: #27ae60;
-            border-color: #5cb85c;
-        }
-        .navbar-default .navbar-nav > .active > a,
-        .navbar-default .navbar-nav > .active > a:hover,
-        .navbar-default .navbar-nav > .active > a:focus {
-            color: #faf2cc;
-            background-color: #2ecc71;
-        }
-        .jumbotron{
-            color: #449d44;
-            background-image: url(/static/2.jpg);
-        }
-        .btn-large{
-            background-color:#2ecc71;
-        }
-        #map {
-        height: 400px;
-        width: 100%;
-        }
-         #submit {
-            background-color: #ffb94b;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
-            background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: linear-gradient(top, #fddb6f, #ffb94b);
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            border-radius: 3px;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-            -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            border-width: 1px;
-            border-style: solid;
-            border-color: #d69e31 #e3a037 #d5982d #e3a037;
-            float: left;
-            height: 35px;
-            padding: 0;
-            width: 220px;
-            cursor: pointer;
-            font: bold 15px Arial, Helvetica;
-            color: #8f5a0a;
-        }
-        .row{
-            padding-left: 50px;
-            padding-bottom: 70px;
-        }
-        .border {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            bottom: 8px;
-            left: 8px;
-            overflow: hidden;
-            z-index: -1;
-        }
-        .border:before {
-            content: "";
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 1px solid #937338;
-        }
-        .border span:before, .border span:after {
-            content: "";
-            display: block;
-            position: absolute;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid #937338;
-            background: #d6e9c6;
-        }
-        .border span:nth-child(1):before {
-            top: -18px;
-            left: -18px;
-        }
-        .border span:nth-child(1):after {
-            top: -18px;
-            right: -18px;
-        }
-        .border span:nth-child(2):before {
-            bottom: -18px;
-            left: -18px;
-        }
-        .border span:nth-child(2):after {
-            bottom: -18px;
-            right: -18px;
-        }
-         #submit {
-            background-color: #ffb94b;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
-            background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: linear-gradient(top, #fddb6f, #ffb94b);
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            border-radius: 3px;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-            -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            border-width: 1px;
-            border-style: solid;
-            border-color: #d69e31 #e3a037 #d5982d #e3a037;
-            float: left;
-            height: 35px;
-            padding: 0;
-            width: 220px;
-            cursor: pointer;
-            font: bold 15px Arial, Helvetica;
-            color: #8f5a0a;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/post.css">
     <title>
-        home
+        {{post}}
     </title>
-    <link href="css/blog-post.css" rel="stylesheet">
 </head>
 
 <body>
@@ -194,20 +18,23 @@
             </a>
         </div>
         <div id="navbarCollapse" class="collapse navbar-collapse">
-            {% if user ==  post.author.username %}
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="{% url 'home' %}">Главная</a></li>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'home' %}">Главная</a></li>
+                <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
+                {% if traveler %}
                     <li class="active"><a href="{% url 'post_new' %}">Добавить новый пост</a></li>
-                </ul>
+                {% endif %}
+            </ul>
+            {% if traveler %}
                 <ul class="nav navbar-nav navbar-right">
-                   <li class="active"><a href="">Настройки</a></li>
-                   <li class="active"><a href="{% url 'logout'  %}">Выйти</a></li>
+                    <li class="active"><a href="{% url 'account_posts' traveler '1'%}">Моя страница</a></li>
+                    <li class="active"><a href="{% url 'account_settings' %}">Настройки</a></li>
+                    <li class="active"><a href="{% url 'logout' %}">Выйти</a></li>
                 </ul>
             {% else %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="{% url 'account_posts' user %}">Моя страница</a></li>
-                    <li class="active"><a href="">Настройки</a></li>
-                    <li class="active"><a href="{% url 'logout' %}">Выйти</a></li>
+                    <li class="active"><a href="{% url 'login' %}">Войти</a></li>
+                    <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
                 </ul>
             {% endif %}
         </div>
@@ -215,10 +42,10 @@
 </nav>
 <div class="post-header">
     <div class="post-container">
-        <h1>{{ post.title }}</h1>
+        <h1>{{ post.title|linebreaksbr }}</h1>
         {% if post.published_date %}
             <h3>
-                <span class="glyphicon glyphicon-time"></span> Posted on {{post.created_date}}  by <a href="{% url 'account_posts' post.author %}">{{post.author}}</a>
+                Posted on {{post.created_date}} by <a href="{% url 'account_posts' post.author %}">{{post.author}}</a>
             </h3>
         {% endif %}
         <div class="post-info">
@@ -242,56 +69,55 @@
     
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    
+
     <div id="map"></div>
-    
+
     <script>
-    
-    function initialize() {
 
-    if (jQuery('#map').length > 0) {
+        function initialize() {
+            var locations = {{post.places}};
+            var map = new google.maps.Map(document.getElementById('map'), {
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                scrollwheel: true
+            });
 
-        var locations = {{post.places}};
+            var infowindow = new google.maps.InfoWindow();
+            var flightPlanCoordinates = [];
+            var bounds = new google.maps.LatLngBounds();
 
-        window.map = new google.maps.Map(document.getElementById('map'), {
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        scrollwheel: true
-        });
+            for (i = 0; i < locations.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+                    map: map
+                });
 
-        var infowindow = new google.maps.InfoWindow();
-        var flightPlanCoordinates = [];
-        var bounds = new google.maps.LatLngBounds();
+                flightPlanCoordinates.push(marker.getPosition());
+                bounds.extend(marker.position);
 
-        for (i = 0; i < locations.length; i++) {
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(locations[i][0], locations[i][1]),
-            map: map
-        });
-        flightPlanCoordinates.push(marker.getPosition());
-        bounds.extend(marker.position);
-
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-            infowindow.setContent('place '+(i+1));
-            infowindow.open(map, marker);
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                    return function() {
+                        infowindow.setContent('place '+(i+1));
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
             }
-        })(marker, i));
+
+            map.fitBounds(bounds);
+
+            var flightPath = new google.maps.Polyline({
+                map: map,
+                path: flightPlanCoordinates,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
         }
 
-        map.fitBounds(bounds);
+        google.maps.event.addDomListener(window, 'load', initialize);
 
-        var flightPath = new google.maps.Polyline({
-        map: map,
-        path: flightPlanCoordinates,
-        strokeColor: "#FF0000",
-        strokeOpacity: 1.0,
-        strokeWeight: 2
-        });
-
-    }
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
     </script>
+
     
 <form method='POST'>
         {% csrf_token %}
@@ -308,7 +134,7 @@
 <div class="row">
         {% for comment in post.comment_set.all %}
             <p class="lead">
-                {{comment.author}} прокоммнтировала {{comment.published_date}}</p>
+                {{comment.author}} commented on {{comment.published_date}}</p>
             <p>{{comment.text|linebreaksbr}}</p>
             <hr>
         {% endfor %}
@@ -328,7 +154,6 @@
             </div>
         </form>
     </div>
-</div>
 </body>
 </html>
 

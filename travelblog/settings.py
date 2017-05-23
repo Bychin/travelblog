@@ -152,11 +152,3 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '../travelblog_media')
-
-LEAFLET_CONFIG = {
-    # conf here
-    'DEFAULT_CENTER': (50.51, 20.87),
-    'DEFAULT_ZOOM': 4,
-    'MIN_ZOOM': 2,
-    'MAX_ZOOM': 18,
-}

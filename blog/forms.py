@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django import forms
+from django.contrib.auth.hashers import make_password
 from .models import Post, Traveler
 
 
@@ -80,3 +81,75 @@ class AddCommentForm(forms.Form):
         label=u'text',
         required='true',
     )
+
+
+class SettingsForm(forms.Form):
+    old_email = ""
+    username = ""
+
+    email = forms.EmailField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'email'}),
+        label=u'Новый адрес',
+        max_length=100,
+        required=False,
+    )
+
+    about = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control'}),
+        label=u'Расскажите о себе',
+        required=False,
+    )
+
+    image = forms.ImageField(
+        required=False,
+        label=u'Ваша фотография',
+    )
+
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control form'}),
+        min_length=6,
+        label=u'Старый пароль',
+        error_messages={'min_length': 'Пароль должен быть не менее 6 символов'},
+        required=False,
+    )
+
+    new_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control form'}),
+        min_length=6,
+        label=u'Новый пароль',
+        error_messages={'min_length': 'Пароль должен быть не менее 6 символов'},
+        required=False,
+    )
+
+    repeat_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        min_length=6,
+        label=u'Повторите пароль',
+        error_messages={'min_length': 'Пароль должен быть не менее 6 символов'},
+        required=False,
+    )
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if self.cleaned_data['email'] != self.old_email:
+            try:
+                Traveler.objects.get(email=email)
+                raise forms.ValidationError(u'Данная почта уже зарегистрирована!')
+            except Traveler.DoesNotExist:
+                pass
+        return email
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data['old_password']
+        if old_password and self.data['new_password'] and self.data['repeat_password']:
+            try:
+                user = authenticate(username=self.username, password=old_password)
+                if not user.is_active:
+                    raise forms.ValidationError(u'Старый пароль указан неверно')
+            except:
+                raise forms.ValidationError(u'Старый пароль указан неверно')
+            pass1 = self.data['new_password']
+            pass2 = self.data['repeat_password']
+            if pass1 != pass2:
+                raise forms.ValidationError(u'Пароли не совпадают')
+        return old_password

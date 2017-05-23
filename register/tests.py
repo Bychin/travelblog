@@ -7,22 +7,11 @@ from .forms import *
 class ViewTests(TestCase):
     def test_views_register(self):
         request = HttpRequest()
-        request.method = 'POST'
         request.user = Traveler()
         request.user.username = 'usr'
-        request.user.is_active = False
+        request.method = 'POST'
         self.assertEqual(str(register(request)),
-                         str(render(request, 'register/signup.html', {'form': SignupForm(request.POST)})),
-                         "views register test 1 - error")
-
-        request.method = ''
-        self.assertEqual(str(register(request)),
-                         str(render(request, 'register/signup.html', {'form': SignupForm()})),
-                         "views register test 2 - error")
-
-        request.user.is_active = True
-        self.assertEqual(str(register(request)),
-                         str(redirect('/profile/usr/')), "views register test 3 - error")
+                         str(redirect('/profile/usr/posts/')), "views register test 3 - error")
 
 
 class FormsTest(TestCase):
@@ -30,7 +19,7 @@ class FormsTest(TestCase):
         self.form = SignupForm()
 
     def test_forms_signup_save(self):
-        self.form.cleaned_data = {'username': 'usr', 'email': 'a@a.aa', 'password': 'pass'}
+        self.form.cleaned_data = {'username': 'usr', 'email': 'a@a.aa', 'password': 'pass', 'about': 'text'}
         new_user = self.form.save()
         self.assertEqual(new_user.username, 'usr', "forms signup test 1 - error")
         self.assertEqual(new_user.email, 'a@a.aa', "forms signup test 2 - error")
@@ -39,7 +28,7 @@ class FormsTest(TestCase):
         self.assertNotEqual(new_user.password, 'pass', "forms signup test 5 - error")
 
     def test_forms_signup_clean_username(self):
-        self.form.cleaned_data = {'username': 'usr', 'email': 'a@a.aa', 'password': 'pass'}
+        self.form.cleaned_data = {'username': 'usr', 'email': 'a@a.aa', 'password': 'pass', 'about': 'text'}
         self.form.save()
 
         error = False
@@ -57,7 +46,7 @@ class FormsTest(TestCase):
         self.assertEqual(self.form.clean_username(), 'usr2', "forms clean username test 2 - error")
 
     def test_forms_signup_clean_email(self):
-        self.form.cleaned_data = {'username': 'usr', 'email': 'a@a.aa', 'password': 'pass'}
+        self.form.cleaned_data = {'username': 'usr', 'email': 'a@a.aa', 'password': 'pass', 'about': 'text'}
         self.form.save()
 
         error = False
@@ -76,7 +65,7 @@ class FormsTest(TestCase):
 
     def test_forms_signup_clean_repeat_password(self):
         self.form.cleaned_data = {'username': 'usr', 'email': 'a@a.aa', 'password': 'pass',
-                             'repeat_password': 'pass2'}
+                             'repeat_password': 'pass2', 'about': 'text'}
         self.form.save()
         error = False
         message = ''

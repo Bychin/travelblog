@@ -1,75 +1,11 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-        body{
-         background-position: center center;
-         background-repeat: no-repeat;
-         background-attachment: fixed;
-         background-size: cover;
-         background-color: #2ecc71;
-}
-        .navbar-default{
-            background-color: #27ae60;
-            border-color: #5cb85c;
-        }
-        .navbar-default .navbar-nav > .active > a,
-        .navbar-default .navbar-nav > .active > a:hover,
-        .navbar-default .navbar-nav > .active > a:focus {
-            color: #faf2cc;
-            background-color: #2ecc71;
-        }
-        .jumbotron{
-            color: #449d44;
-            background-image: url(/static/2.jpg);
-        }
-        .btn-large{
-            background-color:#2ecc71;
-        }
-        h1{
-            margin-left: 30px;
-        }
-        h2{
-            color: #5e5e5e;
-        }
-        p{
-            color: #5e5e5e;
-        }
-        .row{
-            margin-left: 30px;
-        }
-        #submit {
-            background-color: #ffb94b;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
-            background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: linear-gradient(top, #fddb6f, #ffb94b);
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            border-radius: 3px;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-            -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            border-width: 1px;
-            border-style: solid;
-            border-color: #d69e31 #e3a037 #d5982d #e3a037;
-            float: left;
-            height: 35px;
-            padding: 0;
-            width: 270px;
-            cursor: pointer;
-            font: bold 15px Arial, Helvetica;
-            color: #8f5a0a;
-            margin-left: 30px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/home.css">
     <title>
-        home
+        Travelblog
     </title>
 </head>
 
@@ -83,8 +19,14 @@
         </div>
         <div class="collapse navbar-collapse">
             {% if traveler %}
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
+                    <li class="active"><a href="{% url 'post_new' %}">Добавить новый пост</a></li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="{% url 'account_posts' traveler %}">Моя страница</a></li>
+                    <li class="active"><a href="{% url 'account_posts' traveler '1' %}">Моя страница</a></li>
+                    <li class="active"><a href="{% url 'account_settings' %}">Настройки</a></li>
+                    <li class="active"><a href="{% url 'logout'  %}">Выйти</a></li>
                 </ul>
             {% else %}
                 <ul class="nav navbar-nav navbar-right">
@@ -93,16 +35,16 @@
                 </ul>
             {% endif %}
         </div>
-        </div>
-    </nav>
+    </div>
+</nav>
 <div class="jumbotron">
-    <h1>Привет,путешественник!</h1>
+    <h1>Привет, путешественник!</h1>
     <div class="container">
         <div class="col-md-8">
             <p>Не с кем поделиться впечатлениями о путешествии? Хочется узнавать все больше о других странах? Начните свой блог прямо сейчас.Делись постами о наиболее интересных и необычных уголках планеты,выкладыай фотографии,показывай на карте места, в которых ты побывал! Здесь собрались путешественники совершено разных возрастов, из разных городов, профессионалы, любители, новички.Читайте друг друга, вдохновляйтесь на новые путешествия!</p>
         </div>
         <div class="col-md-4">
-            <img src="{% static "image.gif" %}">
+            <img src="{% static "planet.gif" %}">
         </div>
     </div>
     <input type="submit" id="submit" value="Посмотреть посты других людей">

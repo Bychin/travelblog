@@ -20,7 +20,6 @@
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="{% url 'home' %}">Главная</a></li>
-                <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
                 {% if traveler %}
                     <li class="active"><a href="{% url 'post_new' %}">Добавить новый пост</a></li>
                 {% endif %}
@@ -145,29 +144,18 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="col-md-4">
-                <h3 align="center"><p>{{ author }}</p></h3>
-                {% load static %}
-                {% if author.avatar %}
-                <img src="{% get_media_prefix %}{{ author.avatar }}" align="middle" class="img-responsive img-rounded">
-                {% endif %}
-                <br>
-                {{ author.about }}
-                <br>
-                {{ author.email }}
-                <hr>
-            </div>
+
             <div class="col-md-8">
-                <a href="{% url 'account_posts' author '1' %}">
+                <a href="{% url 'all_posts' '1' %}">
                     <input type="submit" value="Первая страница">
                 </a>
-                <a href="{% url 'account_posts' author prev %}">
+                <a href="{% url 'all_posts' prev %}">
                     <input type="submit" value="Предыдущая страница">
                 </a>
-                <a href="{% url 'account_posts' author next %}">
+                <a href="{% url 'all_posts' next %}">
                     <input type="submit" value="Следующая страница">
                 </a>
-                <a href="{% url 'account_posts' author pages %}">
+                <a href="{% url 'all_posts' pages %}">
                     <input type="submit"  value="Последняя страница">
                 </a>
                 <hr>

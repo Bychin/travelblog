@@ -26,19 +26,19 @@ class SignupForm(forms.Form):
     repeat_password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         min_length=6,
-        label=u'Повторный пароль',
+        label=u'Повторите пароль',
         error_messages={'min_length': 'Пароль должен быть не менее 6 символов'},
 
     )
 
-    extra_information = forms.CharField(
+    about = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'form-control'}),
-        label=u'Расскажи о себе',
+        label=u'Расскажите о себе',
     )
 
     image = forms.ImageField(
         required=False,
-        label=u'Твоя фотография',
+        label=u'Ваша фотография',
     )
 
     def clean_username(self):
@@ -70,7 +70,7 @@ class SignupForm(forms.Form):
         new_user.username = data.get('username')
         new_user.password = make_password(password)
         new_user.email = data.get('email')
-        new_user.about=data.get('extra_information')
+        new_user.about = data.get('about')
         new_user.avatar = data.get('image')
         new_user.is_active = True
         new_user.is_superuser = False

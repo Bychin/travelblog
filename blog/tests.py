@@ -36,10 +36,12 @@ class ViewsTests(TestCase):
 
     def test_view_post_new(self):
         self.assertEqual(str(post_new(self.request)),
-                         str(render(self.request, 'admin/add_post.html', {'form': LoginForm()})),
-                         "views post test 1 - error")
+                         str(render(self.request, 'admin/add_post.html',
+                            {'form': PostForm(), 'traveler': self.request.user })),
+                            "views post test 1 - error")
 
         self.request.method = 'POST'
         self.assertEqual(str(post_new(self.request)),
-                         str(render(self.request, 'admin/add_post.html', {'form': LoginForm()})),
-                         "views post test 2 - error")
+                         str(render(self.request, 'admin/add_post.html',
+                            {'form': PostForm(), 'traveler': self.request.user})),
+                            "views post test 2 - error")

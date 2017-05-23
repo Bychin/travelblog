@@ -6,7 +6,7 @@ import json
 
 class Traveler(User):
     about = models.TextField(default="")
-    avatar = models.ImageField(upload_to='images', default=None, null=True, blank=True)
+    avatar = models.ImageField(upload_to='avatars', default=None, null=True, blank=True)
     notifications = models.TextField(default="", null=True, blank=True)
     notification_count = models.IntegerField(default=0, null=True, blank=True)
 
@@ -105,7 +105,7 @@ class Post(models.Model):
     longitude10 = models.FloatField(default=0, null=True, blank=True)
     latitude10 = models.FloatField(default=0, null=True, blank=True)
     places = models.TextField(default="", null=True, blank=True)
-    img = models.ImageField(default=None)
+    img = models.ImageField(upload_to='posts', default=None)
 
     def publish(self):
         rating = Rating()

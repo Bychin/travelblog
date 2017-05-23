@@ -1,222 +1,49 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 <html lang="ru">
 <head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-        body{
-         background-position: center center;
-         background-repeat: no-repeat;
-         background-attachment: fixed;
-         background-size: cover;
-         background-color: #2ecc71;
-}
-        .navbar-default{
-            background-color: #27ae60;
-            border-color: #5cb85c;
-        }
-        .navbar-default .navbar-nav > .active > a,
-        .navbar-default .navbar-nav > .active > a:hover,
-        .navbar-default .navbar-nav > .active > a:focus {
-            color: #faf2cc;
-            background-color: #2ecc71;
-        }
-        .btn-large{
-            background-color:#2ecc71;
-        }
-        #login {
-            background-color: #d6e9c6;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#2ecc71), to(#2fff));
-            background-image: -webkit-linear-gradient(top, #2ecc71, #2fff);
-            background-image: -moz-linear-gradient(top, #2ecc71, #2fff);
-            background-image: -ms-linear-gradient(top, #2ecc71, #2fff);
-            background-image: -o-linear-gradient(top, #2ecc71, #2fff);
-            background-image: linear-gradient(top, #2ecc71, #2fff);
-            height: 1050px;
-            width: 800px;
-            margin: -280px 0 100px -400px;
-            padding: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            right: 50%;
-            z-index: 0;
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            border-radius: 3px;
-            -webkit-box-shadow:
-                    0 0 2px rgba(0, 0, 0, 0.2),
-                    0 1px 1px rgba(0, 0, 0, .2),
-                    0 3px 0 #fff,
-                    0 4px 0 rgba(0, 0, 0, .2),
-                    0 6px 0 #fff,
-                    0 7px 0 rgba(0, 0, 0, .2);
-            -moz-box-shadow:
-                    0 0 2px rgba(0, 0, 0, 0.2),
-                    1px 1px   0 rgba(0,   0,   0,   .1),
-                    3px 3px   0 rgba(255, 255, 255, 1),
-                    4px 4px   0 rgba(0,   0,   0,   .1),
-                    6px 6px   0 rgba(255, 255, 255, 1),
-                    7px 7px   0 rgba(0,   0,   0,   .1);
-            box-shadow:
-                    0 0 2px rgba(0, 0, 0, 0.2),
-                    0 1px 1px rgba(0, 0, 0, .2),
-                    0 3px 0 #fff,
-                    0 4px 0 rgba(0, 0, 0, .2),
-                    0 6px 0 #fff, 0 7px 0 rgba(0, 0, 0, .2);
-        }
-        #login:before {
-            content: '';
-            position: absolute;
-            z-index: -1;
-            border: 1px dashed #ccc;
-            top: 5px;
-            bottom: 5px;
-            left: 5px;
-            right: 5px;
-            -moz-box-shadow: 0 0 0 1px #fff;
-            -webkit-box-shadow: 0 0 0 1px #fff;
-            box-shadow: 0 0 0 1px #fff;  }
-        h1 {
-            text-shadow: 0 1px 0 rgba(255, 255, 255, .7), 0px 2px 0 rgba(0, 0, 0, .5);
-            text-transform: uppercase;
-            text-align: center;
-            color: #666;
-            margin: 0 0 30px 0;
-            letter-spacing: 4px;
-            font: normal 26px/1 Verdana, Helvetica;
-            position: relative;  }
-        h1:after, h1:before {
-            background-color: #777;
-            content: "";
-            height: 1px;
-            position: absolute;
-            top: 15px;
-            width: 120px;
-        }
-        h1:after {
-            background-image: -webkit-gradient(linear, left top, right top, from(#777), to(#fff));
-            background-image: -webkit-linear-gradient(left, #777, #fff);
-            background-image: -moz-linear-gradient(left, #777, #fff);
-            background-image: -ms-linear-gradient(left, #777, #fff);
-            background-image: -o-linear-gradient(left, #777, #fff);
-            background-image: linear-gradient(left, #777, #fff);
-            right: 0;
-        }
-        h1:before {
-            background-image: -webkit-gradient(linear, right top, left top, from(#777), to(#fff));
-            background-image: -webkit-linear-gradient(right, #777, #fff);
-            background-image: -moz-linear-gradient(right, #777, #fff);
-            background-image: -ms-linear-gradient(right, #777, #fff);
-            background-image: -o-linear-gradient(right, #777, #fff);
-            background-image: linear-gradient(right, #777, #fff);
-            left: 0;  }
-        fieldset {
-            border: 0;
-            padding: 0;
-            margin: 0;
-        }
-
-        #inputs input {
-            background: #f1f1f1 url(/dist/uploads/2011/09/login-sprite.png) no-repeat;
-            padding: 15px 15px 15px 30px;
-            margin: 0 0 10px 0;
-            width: 100%; /* 353 + 2 + 45 = 400 */
-            border: 1px solid #ccc;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-            -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-            box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;  }
-        #inputs input:focus {
-            background-color: #fff;
-            border-color: #e8c291;
-            outline: none;
-            -moz-box-shadow: 0 0 0 1px #e8c291 inset;
-            -webkit-box-shadow: 0 0 0 1px #e8c291 inset;
-            box-shadow: 0 0 0 1px #e8c291 inset;  }
-        #submit {
-            background-color: #ffb94b;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
-            background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
-            background-image: linear-gradient(top, #fddb6f, #ffb94b);
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            border-radius: 3px;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-            -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            border-width: 1px;
-            border-style: solid;
-            border-color: #d69e31 #e3a037 #d5982d #e3a037;
-            float: left;
-            height: 35px;
-            padding: 0;
-            width: 220px;
-            cursor: pointer;
-            font: bold 15px Arial, Helvetica;
-            color: #8f5a0a;
-        }
-        #actions {
-            margin: 25px 0 0 0;  }
-
-
-        #submit:hover,#submit:focus {
-            background-color: #2ecc71;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
-            background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
-            background-image: -moz-linear-gradient(top, #ffb94b, #fddb6f);
-            background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
-            background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
-            background-image: linear-gradient(top, #ffb94b, #fddb6f);
-        }
-        #submit:active {
-            outline: none;
-            -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
-            -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;  }
-
-        #submit::-moz-focus-inner {
-            border: none;  }
-
-        #actions a {
-            color: #3151A2;
-            float: right;
-            line-height: 35px;
-            margin-left: 20px;  }
-         #map {
-        height: 400px;
-        width: 100%;
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/add_post.css">
     <title>
-        home
+        Add new post
     </title>
 </head>
 
 <body>
-<nav role="navigation" class=" navbar navbar-default">
+<nav role="navigation" class=" navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
                    <img class="media-object" hspace="10" height="20" src="{% static "1.jpg" %}">
             </a>
         </div>
-        <div class="collapse navbar-collapse">
-               <ul class="nav navbar-nav">
-                   <li class="active"><a href="{% url 'home' %}">Главная</a>
-                   </li>
-                   <li class="active"><a href="{% url 'account_posts' traveler %}">Моя страница</a>
-                   </li>
-               </ul>
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'home' %}">Главная</a></li>
+                <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
+            </ul>
+            {% if traveler ==  author.username %}
+                <ul class="nav navbar-nav navbar-right">
+                   <li class="active"><a href="">Настройки</a></li>
+                   <li class="active"><a href="{% url 'logout'  %}">Выйти</a></li>
+                </ul>
+            {% else %}
+                {% if traveler %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="{% url 'account_posts' traveler '1' %}">Моя страница</a></li>
+                        <li class="active"><a href="{% url 'account_settings' %}">Настройки</a></li>
+                        <li class="active"><a href="{% url 'logout' %}">Выйти</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="{% url 'login' %}">Войти</a></li>
+                        <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
+                    </ul>
+                {% endif %}
+            {% endif %}
         </div>
-        </div>
-    </nav>
+    </div>
+</nav>
 <form method="post" id="login" enctype="multipart/form-data">
     {% csrf_token %}
     <h1>Добавление нового поста</h1>
