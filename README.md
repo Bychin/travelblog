@@ -1,16 +1,19 @@
 # travelblog
 
-### RС v0.9
+### RС v0.9.5
 
 ### last update:
-- добавлена полная поддержка [Centrifugo](https://github.com/centrifugal/centrifugo/releases/) для лайков к постам
 - улучшена графическая оболочка
+- добавлен поиск по городу при создании поста
+- исправления багов и оптимизация кода
+
 
 ### previous updates:
+- добавлена полная поддержка [Centrifugo](https://github.com/centrifugal/centrifugo/releases/) для лайков к постам
 - добавлены карты к постам
 - добавлены картинки к постам
 - добавлены лайки и комментарии
-- исправления багов
+
 
 ## How to configure:
 ./configure
