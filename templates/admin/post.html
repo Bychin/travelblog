@@ -4,6 +4,8 @@
     <head>
         <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
         <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/post.css">
+        <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/like_button.css">
+        <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/dislike_button.css">
         <script type="text/javascript" src="/static/js/jquery.min.js"></script>
         <script type="text/javascript" src="/static/js/centrifuge.min.js"></script>
         <script type="text/javascript" src="/static/js/update.js"></script>
@@ -120,35 +122,33 @@
                 {% csrf_token %}
                 <div class="lead" align="right">
                     <span id="item_like{{ post.rating.pk }}">
-                    <button type="submit" name="like_button">
-                    <img height="40" src="{% static "like.png" %}" />
-                    </button> <span class="likes">{{post.rating.likes}}</span>
-                    <button type="submit" name="dislike_button">
-                    <img height="40" src="{% static "dislike.png" %}" />
-                    </button> <span class="dislikes">{{post.rating.dislikes}}</span>
+                        <button type="submit" name="like_button" class="like_button"></button>
+                        <span class="likes">{{post.rating.likes}}</span>
+                        <button type="submit" name="dislike_button" class="dislike_button"></button>
+                        <span class="dislikes">{{post.rating.dislikes}}</span>
                     </span>
                 </div>
             </form>
         </div>
         <div class="row">
             {% for comment in post.comment_set.all %}
-            <p class="lead">
-                {{comment.author}} commented on {{comment.published_date}}
-            </p>
-            <p>{{comment.text|linebreaksbr}}</p>
-            <hr>
+                <p class="lead">
+                    {{comment.author}} commented on {{comment.published_date}}
+                </p>
+                <p>{{comment.text|linebreaksbr}}</p>
+                <hr>
             {% endfor %}
             <form method="post">
                 <div class="col-md-9">
                     {% csrf_token %}
                     {% for error in form.non_field_errors %}
-                    <div><strong>Ошибка!</strong> {{ error }}</div>
+                        <div><strong>Ошибка!</strong> {{ error }}</div>
                     {% endfor %}
                     {% for input in form.visible_fields %}
-                    <div class="form-group">
-                        <label for="{{ input.name }}">{{ input.label }}</label>
-                        {{input}}
-                    </div>
+                        <div class="form-group">
+                            <label for="{{ input.name }}">{{ input.label }}</label>
+                            {{input}}
+                        </div>
                     {% endfor %}
                     <input type="submit" id="submit" value="Оставить комментарий">
                 </div>

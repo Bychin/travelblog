@@ -4,6 +4,8 @@
 <head>
     <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
     <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/posts.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/like_button.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/dislike_button.css">
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/centrifuge.min.js"></script>
     <script type="text/javascript" src="/static/js/update.js"></script>
@@ -135,12 +137,10 @@
                                 {% csrf_token %}
                                 <div class="lead" align="right">
                                     <span id="item_like{{ post.rating.pk }}">
-                                    <button type="submit" name="like_button{{post.id}}">
-                                    <img height="40" src="{% static "like.png" %}" />
-                                    </button> <span class="likes">{{post.rating.likes}}</span>
-                                    <button type="submit" name="dislike_button{{post.id}}">
-                                    <img height="40" src="{% static "dislike.png" %}" />
-                                    </button> <span class="dislikes">{{post.rating.dislikes}}</span>
+                                        <button type="submit" class="like_button" name="like_button{{post.id}}"></button>
+                                        <span class="likes">{{post.rating.likes}}</span>
+                                        <button type="submit" class="dislike_button" name="dislike_button{{post.id}}"></button>
+                                        <span class="dislikes">{{post.rating.dislikes}}</span>
                                     </span>
                                 </div>
                             </form>
