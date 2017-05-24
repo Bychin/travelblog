@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib import auth, messages
-from django.core.exceptions import ValidationError
-from .models import *
 from .forms import *
+from .models import Post
 from django.core.urlresolvers import reverse
+from django.contrib.auth.hashers import make_password
 
 
 def home(request):
@@ -62,6 +62,9 @@ def account_settings(request):
             if form.cleaned_data['about']:
                 user.about = form.cleaned_data['about']
                 user.save()
+            if form.cleaned_data['image']:
+                user.avatar = form.cleaned_data['image']
+                user.save()
             return HttpResponseRedirect(reverse('account_settings'))
     else:
         form = SettingsForm(initial={'email': user.email, 'about': user.about})
@@ -108,22 +111,15 @@ def post_new(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             auth.login(request, form.cleaned_data['user'])
-            return render(request, 'admin/add_post.html', {'form': AddCommentForm(), 'traveler': request.user})
+            return HttpResponseRedirect(reverse('post_new'))
         return render(request, 'admin/login.html', {'form': form})
     if request.method == "POST":
         post = Post(author=request.user)
-        form = PostForm(request.POST, request.FILES, instance=post)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post_ = form.save(commit=False)
-            try:
-                post_.full_clean()
-            except ValidationError:
-                messages.error(request,
-                               "Error in fields!")
-            else:
-                post_.publish()
-                form.save()
-                return redirect('account_posts', request.user, '1')
+            form.save(post)
+            post.publish()
+            return redirect('account_posts', request.user, '1')
     else:
         form = PostForm()
     return render(request, 'admin/add_post.html', {'form': form, 'traveler': request.user})

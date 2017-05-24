@@ -10,7 +10,7 @@
         <script type="text/javascript" src="/static/js/centrifuge.min.js"></script>
         <script type="text/javascript" src="/static/js/update.js"></script>
         <title>
-            All posts
+            {{author}} posts
         </title>
     </head>
     <body>
@@ -55,7 +55,6 @@
             <div class="row">
                 <div class="col-md-8">
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSgKuqkhenn3A8URWybahP--T0rENyeO0"></script>
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                     {% for post in posts %}
                     <div class="jumbotron">
                         <h2>
@@ -82,6 +81,7 @@
                             </div>
                         </div>
                         <script>
+
                             function initialize() {
                                 var locations = {{post.places}};
                                 var map = new google.maps.Map(document.getElementById('map'+{{post.id}}), {
@@ -149,6 +149,7 @@
                     </div>
                     <hr>
                     {% endfor %}
+                    {% if posts %}
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{% url 'account_posts' author prev %}">
@@ -172,19 +173,29 @@
                         </div>
                         <hr>
                     </div>
+                    {% else %}
+                    <div class="jumbotron" align="center">
+                        <h1>Ой :с</h1>
+                        <h2>Кажется, здесь пока нет постов</h2>
+                        <img src="{% static "travolta.gif" %}">
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="col-md-4">
-                    <h3 align="center">
-                        <p>{{ author }}</p>
-                    </h3>
+                    <h2 align="center">
+                        {{ author }}
+                    </h2>
                     {% load static %}
                     {% if author.avatar %}
                     <img src="{% get_media_prefix %}{{ author.avatar }}" align="middle" class="img-responsive img-rounded">
                     {% endif %}
                     <br>
-                    {{ author.about }}
-                    <br>
-                    {{ author.email }}
+                    <h4 align="center">
+                        {{ author.email }}
+                    </h4>
+                    <h3>
+                        {{ author.about }}
+                    </h3>
                     <hr>
                 </div>
             </div>

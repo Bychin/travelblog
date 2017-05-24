@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate
 from django import forms
-from django.contrib.auth.hashers import make_password
-from .models import Post, Traveler
+from .models import Traveler
 
 
 class LoginForm(forms.Form):
@@ -32,45 +31,117 @@ class LoginForm(forms.Form):
             raise forms.ValidationError(u'Указан неверный логин или пароль')
 
 
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ['title', 'text', 'places_count',
-                  'longitude1', 'latitude1',
-                  'longitude2', 'latitude2',
-                  'longitude3', 'latitude3',
-                  'longitude4', 'latitude4',
-                  'longitude5', 'latitude5',
-                  'longitude6', 'latitude6',
-                  'longitude7', 'latitude7',
-                  'longitude8', 'latitude8',
-                  'longitude9', 'latitude9',
-                  'longitude10', 'latitude10',
-                  'img']
-        widgets = {'title': forms.TextInput(attrs={'class': "form-control"}),
-                   'text': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),
-                   'places_count': forms.HiddenInput(),
-                   'longitude1': forms.HiddenInput(),
-                   'latitude1': forms.HiddenInput(),
-                   'longitude2': forms.HiddenInput(),
-                   'latitude2': forms.HiddenInput(),
-                   'longitude3': forms.HiddenInput(),
-                   'latitude3': forms.HiddenInput(),
-                   'longitude4': forms.HiddenInput(),
-                   'latitude4': forms.HiddenInput(),
-                   'longitude5': forms.HiddenInput(),
-                   'latitude5': forms.HiddenInput(),
-                   'longitude6': forms.HiddenInput(),
-                   'latitude6': forms.HiddenInput(),
-                   'longitude7': forms.HiddenInput(),
-                   'latitude7': forms.HiddenInput(),
-                   'longitude8': forms.HiddenInput(),
-                   'latitude8': forms.HiddenInput(),
-                   'longitude9': forms.HiddenInput(),
-                   'latitude9': forms.HiddenInput(),
-                   'longitude10': forms.HiddenInput(),
-                   'latitude10': forms.HiddenInput(),
-                   }
+class PostForm(forms.Form):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'class': "form-control"}),
+        label=u'Название поста',
+        max_length=100
+    )
+
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={'rows': 5, 'class': 'form-control'}),
+        label=u'Текст поста'
+    )
+
+    places_count = forms.IntegerField(
+        widget=forms.HiddenInput(),
+    )
+
+    latitude1 = forms.FloatField(
+        widget=forms.HiddenInput(),
+    )
+    longitude1 = forms.FloatField(
+        widget=forms.HiddenInput(),
+    )
+    latitude2 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude2 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    latitude3 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude3 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    latitude4 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude4 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    latitude5 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude5 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    latitude6 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude6 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    latitude7 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude7 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    latitude8 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude8 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    latitude9 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude9 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    latitude10 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    longitude10 = forms.FloatField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    img = forms.ImageField(
+        required=False,
+        label=u'Изображение'
+    )
+
+    def save(self, post):
+        post.title = self.cleaned_data['title']
+        post.text = self.cleaned_data['text']
+        post.img = self.cleaned_data['img']
+        places = []
+        for i in range(self.cleaned_data['places_count']):
+            places.append([self.cleaned_data['latitude' + str(i + 1)], self.cleaned_data['longitude' + str(i + 1)]])
+        post.places = places
+        post.save()
+        return post
 
 
 class AddCommentForm(forms.Form):

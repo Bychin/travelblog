@@ -1,142 +1,177 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="ru">
-<head>
-    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
-    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/add_post.css">
-    <title>
-        Add new post
-    </title>
-</head>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap_min.css">
+        <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/add_post.css">
+        <title>
+            Add new post
+        </title>
+    </head>
 
-<body>
-<nav role="navigation" class=" navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                   <img class="media-object" hspace="10" height="20" src="{% static "1.jpg" %}">
-            </a>
-        </div>
-        <div id="navbarCollapse" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="{% url 'home' %}">Главная</a></li>
-                <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
-            </ul>
-            {% if traveler ==  author.username %}
-                <ul class="nav navbar-nav navbar-right">
-                   <li class="active"><a href="">Настройки</a></li>
-                   <li class="active"><a href="{% url 'logout'  %}">Выйти</a></li>
-                </ul>
-            {% else %}
-                {% if traveler %}
+    <body>
+        <nav role="navigation" class=" navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img class="media-object" hspace="10" height="20" src="{% static "1.jpg" %}">
+                    </a>
+                </div>
+                <div id="navbarCollapse" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{% url 'home' %}">Главная</a></li>
+                        <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
+                    </ul>
+                    {% if traveler == author.username %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="">Настройки</a></li>
+                        <li class="active"><a href="{% url 'logout'  %}">Выйти</a></li>
+                    </ul>
+                    {% else %}
+                    {% if traveler %}
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a href="{% url 'account_posts' traveler '1' %}">Моя страница</a></li>
                         <li class="active"><a href="{% url 'account_settings' %}">Настройки</a></li>
                         <li class="active"><a href="{% url 'logout' %}">Выйти</a></li>
                     </ul>
-                {% else %}
+                    {% else %}
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a href="{% url 'login' %}">Войти</a></li>
                         <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
                     </ul>
-                {% endif %}
-            {% endif %}
-        </div>
-    </div>
-</nav>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
 
-<form method="post" id="login" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h1>Добавление нового поста</h1>
-    <fieldset id="inputs">
-        {% for error in form.non_field_errors %}
-            <div><strong>Ошибка!</strong> {{ error }}</div>
-        {% endfor %}
-        {% for input in form.visible_fields %}
-            <label>{{ input.label }}</label>
-                {{input}}
-            <br />
-        {% endfor %}
-        {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-        {% endfor %}
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <form method="post" id="login" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1>Добавление нового поста</h1>
+            <fieldset id="inputs">
+                {% for error in form.non_field_errors %}
+                    <div><strong>Ошибка!</strong> {{ error }}</div>
                 {% endfor %}
-            </ul>
-        {% endif %}
-        <input onclick="addMarker();" type=button value="Add marker">
-        <input onclick="removeLastMarker();" type=button value="Remove last marker">
-        <div id="map"></div>
-        <script>
-        
-        var map;
-        var markers = [];
-        var default_coordinates = {lat: 0, lng: 0};
-        var min_places = 1;
-        var max_places = 10;
-        var places = 0;
-        
-        document.getElementById('id_places_count').value = 0;
-        
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 4,
-                center: default_coordinates,
-            });
+                {% for input in form.visible_fields %}
+                    <label>{{ input.label }}</label>
+                    {{input}}
+                    <br/>
+                {% endfor %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    {{ form }}
+                {% endfor %}
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li
+                    {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div id="map"></div>
+                <script>
 
-            map.addListener('click', function(event) {
-                addMarker(event.latLng);
-            });
+                var map;
+                var markers = [];
+                var default_coordinates = {lat: 56, lng: 18};
+                var min_places = 1;
+                var max_places = 10;
+                var places = 0;
 
-            addMarker();
-        }
+                document.getElementById('id_places_count').value = 0;
 
-        function addMarker(location = default_coordinates) {
-            if (document.getElementById('id_places_count').value < max_places) {
-                document.getElementById('id_places_count').value++;
-                
-                var marker = new google.maps.Marker({
-                    position: location,
-                    map: map,
-                    draggable: true,
-                });
-            
-                document.getElementById('id_latitude'+document.getElementById('id_places_count').value).value = 
-                    marker.getPosition().lat();
-                document.getElementById('id_longitude'+document.getElementById('id_places_count').value).value = 
-                    marker.getPosition().lng();
-                marker.addListener('dragend', function() {
-                    document.getElementById('id_latitude'+document.getElementById('id_places_count').value).value = 
-                    marker.getPosition().lat();
-                    document.getElementById('id_longitude'+document.getElementById('id_places_count').value).value = 
-                    marker.getPosition().lng();
-                });
-            
-                markers.push(marker);
-            }
-        }
-        
-        function removeLastMarker() {
-            if (document.getElementById('id_places_count').value > min_places) {
-                marker = markers.pop()
-                marker.addListener("dblclick", function() {
-                    marker.setMap(null);
-                });
-            }
-        }
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 4,
+                        center: default_coordinates,
+                    });
 
-        </script>
-        <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSgKuqkhenn3A8URWybahP--T0rENyeO0&callback=initMap">
-        </script>
-        
-    </fieldset>
-    <fieldset id="actions">
-        <input type="submit" id="submit" value="Добавить!">
-    </fieldset>
-</form>
-</body>
+                    map.addListener('click', function(event) {
+                        addMarker(event.latLng);
+                    });
+
+                    addMarker();
+                }
+
+                function addMarker(location = default_coordinates) {
+                    if (document.getElementById('id_places_count').value < max_places) {
+                        document.getElementById('id_places_count').value++;
+
+                        var marker = new google.maps.Marker({
+                            position: location,
+                            map: map,
+                            draggable: true,
+                        });
+
+                        document.getElementById('id_latitude'+document.getElementById('id_places_count').value).value =
+                            marker.getPosition().lat();
+                        document.getElementById('id_longitude'+document.getElementById('id_places_count').value).value =
+                            marker.getPosition().lng();
+                        marker.addListener('dragend', function() {
+                            document.getElementById('id_latitude'+document.getElementById('id_places_count').value).value =
+                            marker.getPosition().lat();
+                            document.getElementById('id_longitude'+document.getElementById('id_places_count').value).value =
+                            marker.getPosition().lng();
+                        });
+
+                        markers.push(marker);
+                    }
+                }
+
+                function removeLastMarker() {
+                    if (document.getElementById('id_places_count').value > min_places) {
+                        marker = markers.pop()
+                        marker.setMap(null);
+                        document.getElementById('id_places_count').value--;
+                    }
+                }
+
+                function geocodeAddress() {
+                    geocoder = new google.maps.Geocoder();
+                    var address = document.getElementById('Address').value;
+                    geocoder.geocode({'address': address}, function(results, status) {
+                        if (status === 'OK') {
+                            map.setCenter(results[0].geometry.location);
+                            var marker = markers[markers.length-1];
+                            marker.setPosition(results[0].geometry.location);
+                            document.getElementById('id_latitude'+document.getElementById('id_places_count').value).value =
+                        marker.getPosition().lat();
+                        document.getElementById('id_longitude'+document.getElementById('id_places_count').value).value =
+                        marker.getPosition().lng();
+                        } else {
+                            alert('Geocode was not successful for the following reason: ' + status);
+                        }
+                    });
+                }
+
+                </script>
+                <script async defer
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSgKuqkhenn3A8URWybahP--T0rENyeO0&callback=initMap">
+                </script>
+
+                <br>
+                <div class="col-md-6">
+                    <input onclick="addMarker();" type=button value="Add marker">
+                </div>
+                <div class="col-md-6">
+                    <input onclick="removeLastMarker();" type=button value="Remove last marker">
+                </div>
+                <div class="col-md-6">
+                    <input name="Address" type="text" id="Address" size="50" >
+                </div>
+                <div class="col-md-6">
+                    <input type="button" id="Find" value="Найти" onclick="geocodeAddress()">
+                </div>
+            </fieldset>
+            <fieldset id="actions">
+                <div class="col-md-6" align="center">
+                    <input type="submit" id="submit" value="Добавить!">
+                </div>
+            </fieldset>
+        </form>
+    </body>
 </html>

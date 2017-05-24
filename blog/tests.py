@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.http import HttpRequest
 from .views import *
+from django.utils import timezone
 
 
 class PostTests(TestCase):
@@ -31,7 +32,7 @@ class PostTests(TestCase):
 class ViewsTests(TestCase):
     def setUp(self):
         self.request = HttpRequest()
-        self.request.user = User()
+        self.request.user = Traveler()
         self.request.user.username = 'usr'
 
     def test_view_post_new(self):
