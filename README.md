@@ -1,5 +1,7 @@
 # travelblog
 
+### RС v0.9
+
 ### last update:
 - добавлена полная поддержка [Centrifugo](https://github.com/centrifugal/centrifugo/releases/) для лайков к постам
 - улучшена графическая оболочка
