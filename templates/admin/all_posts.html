@@ -27,24 +27,17 @@
                     <li class="active"><a href="{% url 'post_new' %}">Добавить новый пост</a></li>
                 {% endif %}
             </ul>
-            {% if traveler ==  author.username %}
+            {% if traveler %}
                 <ul class="nav navbar-nav navbar-right">
-                   <li class="active"><a href="">Настройки</a></li>
-                   <li class="active"><a href="{% url 'logout'  %}">Выйти</a></li>
+                    <li class="active"><a href="{% url 'account_posts' traveler '1' %}">Моя страница</a></li>
+                    <li class="active"><a href="{% url 'account_settings' %}">Настройки</a></li>
+                    <li class="active"><a href="{% url 'logout' %}">Выйти</a></li>
                 </ul>
             {% else %}
-                {% if traveler %}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="{% url 'account_posts' traveler '1' %}">Моя страница</a></li>
-                        <li class="active"><a href="{% url 'account_settings' %}">Настройки</a></li>
-                        <li class="active"><a href="{% url 'logout' %}">Выйти</a></li>
-                    </ul>
-                {% else %}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="{% url 'login' %}">Войти</a></li>
-                        <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
-                    </ul>
-                {% endif %}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="{% url 'login' %}">Войти</a></li>
+                <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>
+            </ul>
             {% endif %}
         </div>
     </div>
@@ -62,7 +55,7 @@
                             <a href="{% url 'post_detail' post.id %}">{{post.title|truncatechars:40}}</a>
                         </h2>
                         <p>
-                            Posted on {{post.created_date}}
+                            Posted on {{post.created_date}} by <a href="{% url 'account_posts' post.author '1' %}">{{post.author}}</a>
                         </p>
                         <hr>
                         <style>
@@ -130,23 +123,30 @@
                         </script>
 
                     </div>
-                    <hr>
                     <div class="row">
-                    <div class ="col-md-6">
-                        <a href="{% url 'post_detail' post.id %}">
-                            <input type="submit" id="submit" value="Страница поста">
-                        </a>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="lead" align="right">
-                            <span id="item_like{{ post.rating.pk }}">
-                                <img height="40" src="{% static "like.png" %}" /> <span class="likes">{{post.rating.likes}}</span>
-                                <img height="40" src="{% static "dislike.png" %}" /> <span class="dislikes">{{post.rating.dislikes}}</span>
-                            </span>
-                        </p>
+                        <div class ="col-md-6">
+                            <a href="{% url 'post_detail' post.id %}">
+                                <input type="submit" id="submit" value="Страница поста">
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <iframe name="cap" style="display:none;"></iframe>
+                            <form method='POST' target="cap">
+                                {% csrf_token %}
+                                <div class="lead" align="right">
+                                    <span id="item_like{{ post.rating.pk }}">
+                                    <button type="submit" name="like_button{{post.id}}">
+                                    <img height="40" src="{% static "like.png" %}" />
+                                    </button> <span class="likes">{{post.rating.likes}}</span>
+                                    <button type="submit" name="dislike_button{{post.id}}">
+                                    <img height="40" src="{% static "dislike.png" %}" />
+                                    </button> <span class="dislikes">{{post.rating.dislikes}}</span>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <hr>
-                    </div>
                 {% endfor %}
             </div>
 

@@ -29,6 +29,9 @@
                     <li class="active"><a href="{% url 'logout'  %}">Выйти</a></li>
                 </ul>
             {% else %}
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'all_posts' '1' %}">Все посты</a></li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active"><a href="{% url 'login' %}">Войти</a></li>
                     <li class="active"><a href="{% url 'register' %}">Зарегистрироваться</a></li>

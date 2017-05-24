@@ -12,7 +12,7 @@ echo "$py_version
 ."
 fi
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 python3.6 manage.py makemigrations
 python3.6 manage.py migrate

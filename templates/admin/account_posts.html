@@ -8,7 +8,7 @@
     <script type="text/javascript" src="/static/js/centrifuge.min.js"></script>
     <script type="text/javascript" src="/static/js/update.js"></script>
     <title>
-        {{user}}
+        All posts
     </title>
 </head>
 
@@ -131,7 +131,6 @@
                         </script>
 
                     </div>
-                    <hr>
                     <div class="row">
                     <div class ="col-md-6">
                         <a href="{% url 'post_detail' post.id %}">
@@ -139,15 +138,23 @@
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <p class="lead" align="right">
-                            <span id="item_like{{ post.rating.pk }}">
-                                <img height="40" src="{% static "like.png" %}" /> <span class="likes">{{post.rating.likes}}</span>
-                                <img height="40" src="{% static "dislike.png" %}" /> <span class="dislikes">{{post.rating.dislikes}}</span>
-                            </span>
-                        </p>
+                        <iframe name="cap" style="display:none;"></iframe>
+                        <form method='POST' target="cap">
+                            {% csrf_token %}
+                            <div class="lead" align="right">
+                                <span id="item_like{{ post.rating.pk }}">
+                                <button type="submit" name="like_button{{post.id}}">
+                                <img height="40" src="{% static "like.png" %}" />
+                                </button> <span class="likes">{{post.rating.likes}}</span>
+                                <button type="submit" name="dislike_button{{post.id}}">
+                                <img height="40" src="{% static "dislike.png" %}" />
+                                </button> <span class="dislikes">{{post.rating.dislikes}}</span>
+                                </span>
+                            </div>
+                        </form>
                     </div>
-                    <hr>
                     </div>
+                <hr>
                 {% endfor %}
             </div>
             <div class="col-md-4">
