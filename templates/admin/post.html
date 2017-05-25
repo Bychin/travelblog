@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/post.css">
         <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/like_button.css">
         <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/dislike_button.css">
+        <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/delete_button.css">
         <script type="text/javascript" src="/static/js/jquery.min.js"></script>
         <script type="text/javascript" src="/static/js/centrifuge.min.js"></script>
         <script type="text/javascript" src="/static/js/update.js"></script>
@@ -46,6 +47,14 @@
         </nav>
         <div class="post-header">
             <div class="post-container">
+                {% if traveler == post.author %}
+                <form method='POST'>
+                    {% csrf_token %}
+                    <div class="lead" align="right">
+                        <button type="submit" name="delete_button" class="delete_button"></button>
+                    </div>
+                </form>
+                {% endif %}
                 <h1>{{ post.title|linebreaksbr }}</h1>
                 {% if post.published_date %}
                 <h3>
@@ -148,7 +157,7 @@
                             {{input}}
                         </div>
                     {% endfor %}
-                    <input type="submit" id="submit" value="Оставить комментарий">
+                    <input type="submit" class="more-button" value="Оставить комментарий">
                 </div>
             </form>
         </div>

@@ -138,7 +138,6 @@ class Comment(models.Model):
     published_date = models.DateTimeField(
         blank=True, null=True)
     post = models.ForeignKey(Post, blank=True, null=True)
-    rating = models.OneToOneField(Rating, blank=True, null=True)
 
     def publish(self, post, reply_to=""):
         if reply_to != "":
@@ -149,7 +148,4 @@ class Comment(models.Model):
             self.text = f"@{reply_to}\n{self.text}"
         self.published_date = timezone.now()
         self.post = post
-        rating = Rating()
-        rating.save()
-        self.rating = rating
         self.save()

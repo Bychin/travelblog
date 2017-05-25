@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib import auth, messages
 from .forms import *
-from .models import Post
+from .models import Post, Rating, Comment
 from django.core.urlresolvers import reverse
 from django.contrib.auth.hashers import make_password
 
@@ -135,6 +135,11 @@ def post_detail(request, pk):
         elif 'dislike_button' in request.POST:
             post.rating.add_dislike(Traveler.objects.get(username=request.user))
             post.rating.save()
+        elif 'delete_button' in request.POST:
+            Rating.objects.filter(post=post.id).delete()
+            Comment.objects.filter(post=post.id).delete()
+            Post.objects.filter(id=post.id).delete()
+            return redirect('account_posts', request.user, '1')
         elif form.is_valid():
             post.add_comment(Traveler.objects.get(username=request.user), form.cleaned_data['text'])
             return HttpResponseRedirect(reverse('post_detail', kwargs={'pk': pk}))
