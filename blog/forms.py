@@ -128,7 +128,7 @@ class PostForm(forms.Form):
         required=False
     )
     img = forms.ImageField(
-        required=False,
+        required=True,
         label=u'Изображение'
     )
 
